@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battle For Embolia - Base de Datos</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121214;
+            color: #e1e1e6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #00e676;
+            text-align: center;
+        }
+        #buscador {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            border: 1px solid #29292e;
+            background-color: #202024;
+            color: #fff;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background-color: #202024;
+            border: 1px solid #29292e;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .card h3 {
+            margin-top: 0;
+            color: #ffca28;
+            border-bottom: 1px solid #29292e;
+            padding-bottom: 8px;
+        }
+        .card p {
+            margin: 8px 0;
+            font-size: 14px;
+        }
+        .tipo {
+            color: #8257e5;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚔️ Battle For Embolia - Items 🛡️</h1>
+        <input type="text" id="buscador" placeholder="Buscar ítem por nombre o tipo...">
+        <div id="items-container" class="grid">
+            <p>Cargando ítems...</p>
+        </div>
+    </div>
+
+    <script>
+        async function cargarDatos() {
+            try {
+                // Leemos los archivos directamente desde tu GitHub
+                const resItems = await fetch('item.txt');
+                const textItems = await resItems.text();
+                
+                const items = [];
+                
+                // Procesamos el archivo item.txt línea por línea
+                const lineas = textItems.split('\n');
+                lineas.forEach(linea => {
+                    if (linea.includes('=>')) {
+                        const [llave, valor] = linea.split('=>');
+                        
+                        // Buscamos solo lo que sean nombres de ítems
+                        if (llave.includes('item_name_')) {
+                            const id = llave.split('item_name_')[1].trim();
+                            items.push({
+                                id: id,
+                                nombre: valor.trim()
+                            });
+                        }
+                    }
+                });
+
+                mostrarItems(items);
+
+                // Buscador en tiempo real
+                document.getElementById('buscador').addEventListener('input', (e) => {
+                    const busqueda = e.target.value.toLowerCase();
+                    const filtrados = items.filter(item => 
+                        item.nombre.toLowerCase().includes(busqueda)
+                    );
+                    mostrarItems(filtrados);
+                });
+
+            } catch (error) {
+                console.error("Error cargando los archivos:", error);
+                document.getElementById('items-container').innerHTML = "<p>Error al cargar los datos.</p>";
+            }
+        }
+
+        function mostrarItems(lista) {
+            const container = document.getElementById('items-container');
+            container.innerHTML = '';
+            
+            if (lista.length === 0) {
+                container.innerHTML = '<p>No se encontraron ítems.</p>';
+                return;
+            }
+
+            lista.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <h3>${item.nombre}</h3>
+                    <p class="tipo">ID del Item: #${item.id}</p>
+                    <p>Stats listos para asignar en la web.</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        cargarDatos();
+    </script>
+</body>
+</html>
