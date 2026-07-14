@@ -1,103 +1,16 @@
-/* --- 1. Estilos Globales y Fondo --- */
-body {
-    /* Un fondo oscuro profundo, casi negro */
-    background-color: #0a0a0a;
-    /* Un tono gris claro para el texto principal */
-    color: #d0d0d0;
-    /* Usamos una fuente 'serif' para darle un toque más antiguo/épico,
-       si no carga, usará sans-serif por defecto */
-    font-family: 'Georgia', 'Times New Roman', serif;
-    margin: 0;
-    padding: 20px;
-    /* Un pequeño degradado sutil radial para dar profundidad */
-    background-image: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
-    background-attachment: fixed;
-}
+body { background-color: #050505; color: #d0d0d0; font-family: sans-serif; margin: 0; padding: 20px; }
 
-/* --- 2. Cabecera (Título) --- */
-header {
-    text-align: center;
-    /* Borde inferior con color de 'sangre' o fuego */
-    border-bottom: 4px solid #8b0000; 
-    margin-bottom: 40px;
-    padding-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-}
+.main-layout { display: flex; justify-content: center; gap: 20px; align-items: flex-start; }
 
-header h1 {
-    /* Color dorado envejecido para el título */
-    color: #daa520; 
-    font-size: 3em;
-    text-transform: uppercase;
-    margin: 0;
-    font-weight: normal;
-}
+.panel { background: #1a1a1a; border: 2px solid #333; padding: 15px; border-radius: 5px; }
 
-/* --- 3. Contenedor de Habilidades --- */
-#skills-container {
-    display: flex;
-    justify-content: center;
-    gap: 30px; /* Espacio entre cartas */
-    flex-wrap: wrap;
-    max-width: 1200px;
-    margin: 0 auto;
-}
+/* Centro: Estilo de equipo */
+.equipo-grid { display: flex; align-items: center; gap: 10px; }
+.slots-col { display: flex; flex-direction: column; gap: 5px; }
+.slot { width: 50px; height: 50px; background: #000; border: 1px solid #444; }
+.character-preview { width: 150px; height: 300px; background: #222; display: flex; align-items: center; justify-content: center; border: 1px solid #555; }
 
-/* --- 4. Tarjetas de Habilidad (El diseño principal) --- */
-.skill-card {
-    /* Fondo oscuro semitransparente para la carta */
-    background: rgba(20, 20, 20, 0.9); 
-    /* Borde metálico/oscuro */
-    border: 2px solid #444;
-    /* Esquinas ligeramente redondeadas */
-    border-radius: 5px; 
-    padding: 20px;
-    width: 220px;
-    text-align: center;
-    cursor: pointer;
-    /* Transición suave para efectos de hover */
-    transition: all 0.3s ease-in-out;
-    /* Sombra de caja para que resalte */
-    box-shadow: 0 4px 6px rgba(0,0,0,0.5);
-}
-
-/* Efecto al pasar el ratón (Hover) */
-.skill-card:hover {
-    /* Borde brillante color fuego */
-    border-color: #ff4500;
-    /* Elevamos ligeramente la tarjeta */
-    transform: translateY(-5px);
-    /* Brillo más intenso */
-    box-shadow: 0 6px 12px rgba(255, 69, 0, 0.3);
-}
-
-/* Título de la habilidad */
-.skill-card h3 {
-    /* Color rojo brillante, más llamativo */
-    color: #ff4d4d; 
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 1.4em;
-    text-transform: uppercase;
-    border-bottom: 1px solid #444;
-    padding-bottom: 5px;
-}
-
-/* Puntos asignados */
-.skill-card p {
-    font-size: 1.1em;
-    margin: 10px 0;
-}
-
-.skill-card strong {
-    /* Color blanco brillante para el número de puntos */
-    color: #ffffff; 
-    font-size: 1.3em;
-}
-
-/* Instrucciones (pequeño texto debajo) */
-.skill-card small {
-    color: #888;
-    font-style: italic;
-    font-size: 0.9em;
-}
+/* Ajuste de anchos */
+#habilidades { width: 300px; }
+#equipo { width: 400px; }
+#estadisticas { width: 250px; }
