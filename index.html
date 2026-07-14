@@ -15,7 +15,7 @@
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            overflow-x: hidden;
+            overflow-x: hidden; /* Garantiza que no exista scroll horizontal */
         }
         .header {
             text-align: center;
@@ -29,6 +29,7 @@
             font-size: 18px;
         }
         
+        /* Layout de 3 columnas - Proporciones compactadas para encajar en cualquier resolución */
         .planner-layout {
             display: grid;
             grid-template-columns: 320px 1fr 260px;
@@ -42,6 +43,7 @@
             box-sizing: border-box;
         }
 
+        /* Paneles */
         .panel {
             background-color: #121214;
             border: 1px solid #29292e;
@@ -64,7 +66,7 @@
             margin-bottom: 8px;
         }
 
-        /* --- COLUMNA IZQUIERDA: HABILIDADES --- */
+        /* --- COLUMNA IZQUIERDA: ÁRBOL DE HABILIDADES COMPACTO --- */
         .class-selector {
             margin-bottom: 8px;
         }
@@ -112,8 +114,8 @@
             align-items: center;
         }
         .skill-slot {
-            width: 60px;
-            height: 60px;
+            width: 60px;  /* Reducido a un tamaño perfecto de 60px */
+            height: 60px; 
             background-color: #1a1a1e;
             border: 1px solid #3a3a42;
             border-radius: 4px;
@@ -157,7 +159,7 @@
             color: #00e676;
         }
 
-        /* --- COLUMNA CENTRAL: EQUIPAMIENTO --- */
+        /* --- COLUMNA CENTRAL: EQUIPAMIENTO ADAPTATIVO MEDIANO --- */
         .equipment-container {
             display: flex;
             flex-direction: column;
@@ -178,8 +180,8 @@
             gap: 10px;
         }
         .char-silhouette {
-            width: 160px;
-            height: 320px;
+            width: 160px; /* Redimensionado para optimizar el espacio */
+            height: 320px; 
             border: 1px dashed #3a3a42;
             display: flex;
             align-items: center;
@@ -192,8 +194,8 @@
             box-shadow: inset 0 0 15px rgba(0,0,0,0.85);
         }
         .slot {
-            width: 76px;
-            height: 76px;
+            width: 76px; /* Reducido de 86px a 76px para ganar espacio horizontal crucial */
+            height: 76px; 
             background-color: #1a1a1e;
             border: 1px dashed #3a3a42;
             border-radius: 8px;
@@ -390,11 +392,11 @@
 
                 <!-- Stats rápidos debajo -->
                 <div class="quick-stats">
-                    <div class="quick-stat-row"><span id="lbl-ataque">Ataque:</span> <span class="quick-stat-val" id="q-dmg" style="color: #ffb300;">10</span></div>
-                    <div class="quick-stat-row"><span id="lbl-crit">Crítico:</span> <span class="quick-stat-val" id="q-crit" style="color: #e53935;">5%</span></div>
-                    <div class="quick-stat-row"><span id="lbl-critPower">Poder Crítico:</span> <span class="quick-stat-val" id="q-crit-power" style="color: #ff5252;">150%</span></div>
-                    <div class="quick-stat-row"><span id="lbl-defensa">Defensa:</span> <span class="quick-stat-val" id="q-def" style="color: #1e88e5;">0</span></div>
-                    <div class="quick-stat-row"><span id="lbl-defensaMagica">Defensa Mágica:</span> <span class="quick-stat-val" id="q-mdef" style="color: #8257e5;">0</span></div>
+                    <div class="quick-stat-row"><span>Daño Total:</span> <span class="quick-stat-val" id="q-dmg" style="color: #ffb300;">10</span></div>
+                    <div class="quick-stat-row"><span>Crítico:</span> <span class="quick-stat-val" id="q-crit" style="color: #e53935;">5%</span></div>
+                    <div class="quick-stat-row"><span>Poder Crítico:</span> <span class="quick-stat-val" id="q-crit-power" style="color: #ff5252;">150%</span></div>
+                    <div class="quick-stat-row"><span>Defensa:</span> <span class="quick-stat-val" id="q-def" style="color: #1e88e5;">0</span></div>
+                    <div class="quick-stat-row"><span>Defensa Mágica:</span> <span class="quick-stat-val" id="q-mdef" style="color: #8257e5;">0</span></div>
                 </div>
             </div>
         </div>
@@ -405,21 +407,21 @@
             <div class="detailed-stats">
                 <div class="stat-group">
                     <h3>Generales</h3>
-                    <div class="stat-row"><span id="lbl-life">Vida Máxima:</span> <span class="stat-val" id="d-life">100</span></div>
-                    <div class="stat-row"><span id="lbl-manaMaxima">Maná Máximo:</span> <span class="stat-val" id="d-mana">50</span></div>
-                    <div class="stat-row"><span id="lbl-speed">Velocidad:</span> <span class="stat-val" id="d-speed">100%</span></div>
+                    <div class="stat-row"><span>Vida Máxima:</span> <span class="stat-val" id="d-life">100</span></div>
+                    <div class="stat-row"><span>Maná Máximo:</span> <span class="stat-val" id="d-mana">50</span></div>
+                    <div class="stat-row"><span>Velocidad de Movimiento:</span> <span class="stat-val" id="d-speed">100%</span></div>
                 </div>
                 <div class="stat-group">
                     <h3>Resistencias</h3>
-                    <div class="stat-row"><span id="lbl-resistenciaFrio">Resistencia Frío:</span> <span class="stat-val" id="d-cold">0%</span></div>
-                    <div class="stat-row"><span id="lbl-resistenciaFuego">Resistencia Fuego:</span> <span class="stat-val" id="d-fire">0%</span></div>
-                    <div class="stat-row"><span id="lbl-resistenciaRayos">Resistencia Rayos:</span> <span class="stat-val" id="d-light">0%</span></div>
+                    <div class="stat-row"><span>Resistencia al Frío:</span> <span class="stat-val" id="d-cold">0%</span></div>
+                    <div class="stat-row"><span>Resistencia al Fuego:</span> <span class="stat-val" id="d-fire">0%</span></div>
+                    <div class="stat-row"><span>Resistencia a Rayos:</span> <span class="stat-val" id="d-light">0%</span></div>
                 </div>
                 <div class="stat-group">
                     <h3>Habilidades Especiales</h3>
-                    <div class="stat-row"><span id="lbl-chanceBloqueo">Chance Bloqueo:</span> <span class="stat-val" id="d-block">0%</span></div>
-                    <div class="stat-row"><span id="lbl-evasion">Evasión:</span> <span class="stat-val" id="d-evasion">0%</span></div>
-                    <div class="stat-row"><span id="lbl-magicFind">Hallazgo Mágico:</span> <span class="stat-val" id="d-mf">0%</span></div>
+                    <div class="stat-row"><span>Chance Bloqueo:</span> <span class="stat-val" id="d-block">0%</span></div>
+                    <div class="stat-row"><span>Evasión:</span> <span class="stat-val" id="d-evasion">0%</span></div>
+                    <div class="stat-row"><span>Hallazgo Mágico:</span> <span class="stat-val" id="d-mf">0%</span></div>
                 </div>
             </div>
         </div>
@@ -438,7 +440,6 @@
 
     <script>
         let itemsDatabase = [];
-        let statsDatabase = {}; // Aquí guardaremos la traducción real de stats.txt
         let slotActual = null;
 
         let equipado = {
@@ -500,24 +501,6 @@
 
         async function inicializar() {
             try {
-                // 1. Leer y procesar stats.txt para cargar nombres reales
-                const resStats = await fetch('stats.txt');
-                const textStats = await resStats.text();
-                textStats.split('\n').forEach(linea => {
-                    if (linea.includes('=>')) {
-                        const [llave, valor] = linea.split('=>');
-                        const keyClean = llave.replace('stats/', '').trim();
-                        // Guardamos solo si no es la descripción (_desc)
-                        if (!keyClean.endsWith('_desc')) {
-                            statsDatabase[keyClean] = valor.trim();
-                        }
-                    }
-                });
-
-                // Actualizar las etiquetas visuales de la interfaz con los nombres de tu archivo
-                actualizarEtiquetasVisuales();
-
-                // 2. Leer y procesar item.txt
                 const resItems = await fetch('item.txt');
                 const textItems = await resItems.text();
                 textItems.split('\n').forEach(linea => {
@@ -542,33 +525,6 @@
                 cambiarClase();
             } catch (e) {
                 console.error("Error cargando base de datos:", e);
-            }
-        }
-
-        // Aplica las traducciones del archivo stats.txt directamente a las etiquetas HTML de la web
-        function actualizarEtiquetasVisuales() {
-            const mapeoEtiquetas = {
-                'lbl-ataque': 'ataque',
-                'lbl-crit': 'critico',
-                'lbl-critPower': 'poderCritico',
-                'lbl-defensa': 'defensa',
-                'lbl-defensaMagica': 'defensaMagica',
-                'lbl-life': 'life',
-                'lbl-manaMaxima': 'manaMaxima',
-                'lbl-speed': 'speed',
-                'lbl-resistenciaFrio': 'resistenciaFrio',
-                'lbl-resistenciaFuego': 'resistenciaFuego',
-                'lbl-resistenciaRayos': 'resistenciaRayos',
-                'lbl-chanceBloqueo': 'chanceBloqueo',
-                'lbl-evasion': 'evasion',
-                'lbl-magicFind': 'magicFind'
-            };
-
-            for (const [idElemento, keyStat] of Object.entries(mapeoEtiquetas)) {
-                const elemento = document.getElementById(idElemento);
-                if (elemento && statsDatabase[keyStat]) {
-                    elemento.innerText = statsDatabase[keyStat] + ":";
-                }
             }
         }
 
