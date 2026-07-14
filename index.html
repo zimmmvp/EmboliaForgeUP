@@ -2,42 +2,128 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Battle for Embolia - Planner</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Embolia Planner - Simulador Completo</title>
+    <style>
+        body { font-family: sans-serif; background-color: #0c0c0e; color: #e1e1e6; margin: 0; padding: 10px; height: 100vh; display: flex; flex-direction: column; }
+        .planner-layout { display: grid; grid-template-columns: 350px 1fr 280px; gap: 15px; height: 100%; max-width: 1200px; margin: 0 auto; width: 100%; }
+        .panel { background: #121214; border: 1px solid #29292e; border-radius: 8px; padding: 15px; display: flex; flex-direction: column; overflow: hidden; }
+        .scroll-y { overflow-y: auto; flex-grow: 1; margin-top: 10px; }
+        .skill-row { display: grid; grid-template-columns: 30px repeat(3, 1fr); gap: 8px; margin-bottom: 8px; align-items: center; }
+        .skill-slot { width: 70px; height: 70px; background: #1a1a1e; border: 1px solid #3a3a42; font-size: 9px; display: flex; align-items: center; justify-content: center; text-align: center; cursor: pointer; border-radius: 4px; }
+        .equip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; justify-items: center; margin-top: 20px; }
+        .slot { width: 90px; height: 90px; border: 1px dashed #3a3a42; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 10px; text-align: center; background: #16161a; border-radius: 6px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #202024; font-size: 12px; }
+        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #121214; padding: 20px; border: 1px solid #00e676; z-index: 1000; width: 350px; border-radius: 8px; }
+        .item-container { border: 1px solid #333; padding: 8px; margin-bottom: 5px; border-radius: 4px; }
+        .item-btn { width: 100%; padding: 8px; cursor: pointer; background: #29292e; color: #fff; border: 1px solid #00e676; margin-top: 5px; }
+    </style>
 </head>
 <body>
-
-    <div class="main-container">
-        <!-- Columna 1: Habilidades -->
-        <section class="panel" id="panel-habilidades">
-            <h2 class="panel-title">Habilidades</h2>
-            <div id="skills-list"></div>
-        </section>
-
-        <!-- Columna 2: Personaje y Equipo -->
-        <section class="panel" id="panel-personaje">
-            <h2 class="panel-title">Equipamiento</h2>
-            <div class="gear-layout">
-                <div class="slots-left">
-                    <div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div>
-                </div>
-                <div class="character-model">MODELO PJ</div>
-                <div class="slots-right">
-                    <div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div>
-                </div>
+    <div class="planner-layout">
+        <div class="panel">
+            <h2>Habilidades</h2>
+            <select id="class-select" onchange="cambiarClase()"><option value="ninja">Ninja</option><option value="guerrero">Guerrero</option><option value="mago">Mago</option></select>
+            <div id="skills-container" class="scroll-y"></div>
+        </div>
+        <div class="panel">
+            <h2>Equipamiento</h2>
+            <div class="equip-grid">
+                <div class="slot" id="slot-helmet" onclick="abrirSelector('helmet')">Casco</div>
+                <div class="slot" id="slot-chest" onclick="abrirSelector('chest')">Pechera</div>
+                <div class="slot" id="slot-gloves" onclick="abrirSelector('gloves')">Guantes</div>
+                <div class="slot" id="slot-weapon" onclick="abrirSelector('weapon')">Arma</div>
+                <div class="slot" id="slot-necklace" onclick="abrirSelector('necklace')">Collar</div>
+                <div class="slot" id="slot-ring1" onclick="abrirSelector('ring1')">Anillo 1</div>
+                <div class="slot" id="slot-boots" onclick="abrirSelector('boots')">Botas</div>
+                <div class="slot" id="slot-shield" onclick="abrirSelector('shield')">Arma Der</div>
             </div>
-        </section>
-
-        <!-- Columna 3: Estadísticas -->
-        <section class="panel" id="panel-stats">
-            <h2 class="panel-title">Estadísticas</h2>
-            <div id="stats-content">
-                <p>Daño Total: <span id="dmg">222</span></p>
-                <p>Defensa: <span id="def">31</span></p>
+        </div>
+        <div class="panel">
+            <h2>Stats Totales</h2>
+            <div id="stats-display" class="scroll-y">
+                <div class="stat-row"><span>Ataque:</span> <span id="val-ataque">10</span></div>
+                <div class="stat-row"><span>Vida:</span> <span id="val-vida">100</span></div>
             </div>
-        </section>
+        </div>
     </div>
 
-    <script src="app.js"></script>
+    <div class="modal" id="modal">
+        <input type="text" id="buscador" oninput="filtrarItems()" placeholder="Buscar ítem..." style="width:100%; padding:8px;">
+        <div id="modal-list" class="scroll-y" style="max-height: 300px;"></div>
+        <button onclick="cerrarSelector()" style="margin-top:10px;">Cerrar</button>
+    </div>
+
+    <script>
+        let itemsDatabase = [], slotActual = null, equipado = {};
+        const skillTrees = {
+            ninja: Array.from({length:10}, (_, i) => ({row: i+1, name: "Ninja Skill "+(i+1)})),
+            guerrero: Array.from({length:10}, (_, i) => ({row: i+1, name: "Tajo "+(i+1)})),
+            mago: Array.from({length:10}, (_, i) => ({row: i+1, name: "Hechizo "+(i+1)}))
+        };
+
+        async function inicializar() {
+            try {
+                const res = await fetch('item.txt');
+                const text = await res.text();
+                text.split('\n').forEach(linea => { if(linea.includes('item_name_')) itemsDatabase.push({nombre: linea.split('=>')[1].trim()}); });
+                cambiarClase();
+            } catch(e) { console.log("Cargando base de datos..."); }
+        }
+
+        function cambiarClase() {
+            const container = document.getElementById('skills-container');
+            container.innerHTML = '';
+            skillTrees[document.getElementById('class-select').value].forEach(s => {
+                container.innerHTML += `<div class="skill-row"><div class="row-number">${s.row}</div><div class="skill-slot">${s.name}</div><div class="skill-slot"></div><div class="skill-slot"></div></div>`;
+            });
+        }
+
+        function abrirSelector(slot) { 
+            slotActual = slot; 
+            document.getElementById('modal').style.display = 'block'; 
+            filtrarItems(); 
+        }
+
+        function filtrarItems() {
+            const query = document.getElementById('buscador').value.toLowerCase();
+            const list = document.getElementById('modal-list');
+            list.innerHTML = `<button class="item-btn" onclick="equiparItem(null)">❌ Desequipar</button>`;
+            itemsDatabase.filter(i => i.nombre.toLowerCase().includes(query)).forEach(item => {
+                let div = document.createElement('div');
+                div.className = "item-container";
+                div.innerHTML = `<strong>${item.nombre}</strong><br>
+                    <input type="number" id="atk-${item.nombre}" placeholder="Ataque" style="width:40%">
+                    <input type="number" id="vida-${item.nombre}" placeholder="Vida" style="width:40%">
+                    <button class="item-btn" onclick="equiparItem('${item.nombre}')">Equipar</button>`;
+                list.appendChild(div);
+            });
+        }
+
+        function equiparItem(nombre) {
+            if (!nombre) {
+                equipado[slotActual] = null;
+            } else {
+                let atk = parseInt(document.getElementById('atk-'+nombre).value) || 0;
+                let vida = parseInt(document.getElementById('vida-'+nombre).value) || 0;
+                equipado[slotActual] = { nombre, atk, vida };
+            }
+            document.getElementById('slot-'+slotActual).innerText = nombre || "Slot";
+            calcularStats();
+            cerrarSelector();
+        }
+
+        function calcularStats() {
+            let totalAtk = 10, totalVida = 100;
+            Object.values(equipado).forEach(item => { 
+                if(item) { totalAtk += item.atk; totalVida += item.vida; } 
+            });
+            document.getElementById('val-ataque').innerText = totalAtk;
+            document.getElementById('val-vida').innerText = totalVida;
+        }
+
+        function cerrarSelector() { document.getElementById('modal').style.display = 'none'; }
+        
+        inicializar();
+    </script>
 </body>
 </html>
