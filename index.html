@@ -2,127 +2,102 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Embolia Planner - Simulador Completo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embolia Planner - Simulador de Builds</title>
     <style>
-        body { font-family: sans-serif; background-color: #0c0c0e; color: #e1e1e6; margin: 0; padding: 10px; height: 100vh; display: flex; flex-direction: column; }
-        .planner-layout { display: grid; grid-template-columns: 350px 1fr 280px; gap: 15px; height: 100%; max-width: 1200px; margin: 0 auto; width: 100%; }
-        .panel { background: #121214; border: 1px solid #29292e; border-radius: 8px; padding: 15px; display: flex; flex-direction: column; overflow: hidden; }
-        .scroll-y { overflow-y: auto; flex-grow: 1; margin-top: 10px; }
-        .skill-row { display: grid; grid-template-columns: 30px repeat(3, 1fr); gap: 8px; margin-bottom: 8px; align-items: center; }
-        .skill-slot { width: 70px; height: 70px; background: #1a1a1e; border: 1px solid #3a3a42; font-size: 9px; display: flex; align-items: center; justify-content: center; text-align: center; cursor: pointer; border-radius: 4px; }
-        .equip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; justify-items: center; margin-top: 20px; }
-        .slot { width: 90px; height: 90px; border: 1px dashed #3a3a42; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 10px; text-align: center; background: #16161a; border-radius: 6px; }
-        .stat-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #202024; font-size: 12px; }
-        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #121214; padding: 20px; border: 1px solid #00e676; z-index: 1000; width: 350px; border-radius: 8px; }
-        .item-container { border: 1px solid #333; padding: 8px; margin-bottom: 5px; border-radius: 4px; }
-        .item-btn { width: 100%; padding: 8px; cursor: pointer; background: #29292e; color: #fff; border: 1px solid #00e676; margin-top: 5px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0c0c0e; color: #e1e1e6; margin: 0; padding: 8px; height: 100vh; box-sizing: border-box; display: flex; flex-direction: column; overflow-x: hidden; }
+        .header { text-align: center; padding: 6px 0; border-bottom: 1px solid #29292e; margin-bottom: 8px; }
+        .header h1 { margin: 0; color: #00e676; font-size: 18px; }
+        .planner-layout { display: grid; grid-template-columns: 320px 1fr 260px; gap: 10px; max-width: 1160px; width: 98%; margin: 0 auto; flex-grow: 1; height: calc(100vh - 60px); min-height: 500px; box-sizing: border-box; }
+        .panel { background-color: #121214; border: 1px solid #29292e; border-radius: 8px; padding: 10px; box-sizing: border-box; display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+        .panel h2 { margin-top: 0; font-size: 12px; color: #fff; border-bottom: 1px solid #29292e; padding-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .class-selector { margin-bottom: 8px; }
+        .class-selector select { width: 100%; padding: 6px; background-color: #202024; color: white; border: 1px solid #29292e; border-radius: 4px; font-size: 12px; }
+        .skills-scroll-container { flex-grow: 1; overflow-y: auto; border: 1px solid #29292e; border-radius: 6px; background-color: #16161a; padding: 4px; }
+        .skill-row { display: grid; grid-template-columns: 20px repeat(3, 1fr); gap: 4px; align-items: center; padding: 4px 0; border-bottom: 1px solid #1a1a1e; }
+        .row-number { font-size: 14px; font-weight: bold; color: #ffca28; text-align: center; }
+        .skill-slot { width: 60px; height: 60px; background-color: #1a1a1e; border: 1px solid #3a3a42; border-radius: 4px; display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer; font-size: 8px; color: #7c7c8a; user-select: none; transition: all 0.1s; text-align: center; padding: 3px; box-sizing: border-box; line-height: 1.1; }
+        .skill-slot.active { border: 1px solid #00e676; background-color: #202024; color: #fff; }
+        .skill-points { position: absolute; bottom: 1px; right: 1px; background-color: rgba(0,0,0,0.85); border: 1px solid #00e676; border-radius: 50%; width: 13px; height: 13px; display: flex; align-items: center; justify-content: center; font-size: 7.5px; font-weight: bold; color: #00e676; }
+        .equipment-container { display: flex; flex-direction: column; align-items: center; justify-content: space-between; height: 100%; }
+        .equipment-layout-wrapper { display: flex; gap: 16px; align-items: center; justify-content: center; margin: auto 0; }
+        .equip-column { display: flex; flex-direction: column; gap: 10px; }
+        .char-silhouette { width: 160px; height: 320px; border: 1px dashed #3a3a42; display: flex; align-items: center; justify-content: center; color: #7c7c8a; font-size: 13px; font-weight: bold; background-color: #16161a; border-radius: 8px; }
+        .slot { width: 76px; height: 76px; background-color: #1a1a1e; border: 1px dashed #3a3a42; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 10px; color: #a8a8b3; cursor: pointer; text-align: center; padding: 4px; box-sizing: border-box; }
+        .slot-active { border: 1.5px solid #ffca28; background-color: #202024; color: #fff; font-weight: 600; }
+        .quick-stats { width: 100%; background-color: #16161a; border: 1px solid #29292e; border-radius: 6px; padding: 6px; }
+        .quick-stat-row { display: flex; justify-content: space-between; font-size: 11px; padding: 3px 0; border-bottom: 1px solid #202024; }
+        .stat-row { display: flex; justify-content: space-between; padding: 3px 0; font-size: 10.5px; }
+        .stat-val { color: #00e676; font-weight: bold; }
+        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #121214; border: 1px solid #00e676; border-radius: 8px; padding: 15px; width: 320px; max-height: 400px; overflow-y: auto; z-index: 1000; }
+        .modal-item-btn { display: block; width: 100%; padding: 8px; background-color: #1a1a1e; color: white; border: 1px solid #29292e; margin-bottom: 6px; text-align: left; cursor: pointer; font-size: 11px; }
     </style>
 </head>
 <body>
+    <div class="header"><h1>⚔️ Battle For Embolia Build Planner 🛡️</h1></div>
     <div class="planner-layout">
         <div class="panel">
             <h2>Habilidades</h2>
-            <select id="class-select" onchange="cambiarClase()"><option value="ninja">Ninja</option><option value="guerrero">Guerrero</option><option value="mago">Mago</option></select>
-            <div id="skills-container" class="scroll-y"></div>
+            <div class="class-selector"><select id="class-select" onchange="cambiarClase()"><option value="ninja">Ninja</option><option value="guerrero">Guerrero Zombie</option><option value="mago">Mago Oscuro</option></select></div>
+            <div id="skills-container" class="skills-scroll-container"></div>
         </div>
         <div class="panel">
             <h2>Equipamiento</h2>
-            <div class="equip-grid">
-                <div class="slot" id="slot-helmet" onclick="abrirSelector('helmet')">Casco</div>
-                <div class="slot" id="slot-chest" onclick="abrirSelector('chest')">Pechera</div>
-                <div class="slot" id="slot-gloves" onclick="abrirSelector('gloves')">Guantes</div>
-                <div class="slot" id="slot-weapon" onclick="abrirSelector('weapon')">Arma</div>
-                <div class="slot" id="slot-necklace" onclick="abrirSelector('necklace')">Collar</div>
-                <div class="slot" id="slot-ring1" onclick="abrirSelector('ring1')">Anillo 1</div>
-                <div class="slot" id="slot-boots" onclick="abrirSelector('boots')">Botas</div>
-                <div class="slot" id="slot-shield" onclick="abrirSelector('shield')">Arma Der</div>
+            <div class="equipment-container">
+                <div class="equipment-layout-wrapper">
+                    <div class="equip-column">
+                        <div class="slot" id="slot-helmet" onclick="abrirSelector('helmet')">🎩 Casco</div>
+                        <div class="slot" id="slot-chest" onclick="abrirSelector('chest')">🛡️ Pechera</div>
+                        <div class="slot" id="slot-gloves" onclick="abrirSelector('gloves')">🧤 Guantes</div>
+                        <div class="slot" id="slot-weapon" onclick="abrirSelector('weapon')">⚔️ Arma Izq</div>
+                    </div>
+                    <div class="char-silhouette" id="char-image">Ninja</div>
+                    <div class="equip-column">
+                        <div class="slot" id="slot-necklace" onclick="abrirSelector('necklace')">📿 Collar</div>
+                        <div class="slot" id="slot-ring1" onclick="abrirSelector('ring1')">💍 Anillo 1</div>
+                        <div class="slot" id="slot-boots" onclick="abrirSelector('boots')">🥾 Botas</div>
+                        <div class="slot" id="slot-shield" onclick="abrirSelector('shield')">🛡️ Arma Der</div>
+                    </div>
+                </div>
+                <div class="quick-stats">
+                    <div class="quick-stat-row"><span id="lbl-ataque">Ataque:</span> <span class="quick-stat-val" id="q-dmg" style="color: #ffb300;">10</span></div>
+                    <div class="quick-stat-row"><span id="lbl-crit">Crítico:</span> <span class="quick-stat-val" id="q-crit" style="color: #e53935;">5%</span></div>
+                </div>
             </div>
         </div>
         <div class="panel">
-            <h2>Stats Totales</h2>
-            <div id="stats-display" class="scroll-y">
-                <div class="stat-row"><span>Ataque:</span> <span id="val-ataque">10</span></div>
-                <div class="stat-row"><span>Vida:</span> <span id="val-vida">100</span></div>
+            <h2>Estadísticas Detalladas</h2>
+            <div class="detailed-stats">
+                <div class="stat-row"><span id="lbl-life">Vida Máxima:</span> <span class="stat-val" id="d-life">100</span></div>
+                <div class="stat-row"><span id="lbl-manaMaxima">Maná Máximo:</span> <span class="stat-val" id="d-mana">50</span></div>
             </div>
         </div>
     </div>
-
-    <div class="modal" id="modal">
-        <input type="text" id="buscador" oninput="filtrarItems()" placeholder="Buscar ítem..." style="width:100%; padding:8px;">
-        <div id="modal-list" class="scroll-y" style="max-height: 300px;"></div>
-        <button onclick="cerrarSelector()" style="margin-top:10px;">Cerrar</button>
-    </div>
-
+    <div class="modal" id="modal"><div class="modal-header"><h3 id="modal-title">Seleccionar</h3><span onclick="cerrarSelector()" style="cursor:pointer; color:red;">X</span></div><div id="modal-list"></div></div>
     <script>
-        let itemsDatabase = [], slotActual = null, equipado = {};
+        let itemsDatabase = [], statsDatabase = {}, equipado = {helmet:null, necklace:null, weapon:null, chest:null, shield:null, gloves:null, boots:null, ring1:null};
         const skillTrees = {
-            ninja: Array.from({length:10}, (_, i) => ({row: i+1, name: "Ninja Skill "+(i+1)})),
-            guerrero: Array.from({length:10}, (_, i) => ({row: i+1, name: "Tajo "+(i+1)})),
-            mago: Array.from({length:10}, (_, i) => ({row: i+1, name: "Hechizo "+(i+1)}))
+            ninja: [{row:1, col:1, max:1, name:"Ataque Base", current:0}, {row:1, col:3, max:5, name:"Visión Aguda", current:0}],
+            guerrero: [{row:1, col:1, max:5, name:"Tajo Verde", current:0}],
+            mago: [{row:1, col:1, max:5, name:"Calavera Fuego", current:0}]
         };
-
-        async function inicializar() {
-            try {
-                const res = await fetch('item.txt');
-                const text = await res.text();
-                text.split('\n').forEach(linea => { if(linea.includes('item_name_')) itemsDatabase.push({nombre: linea.split('=>')[1].trim()}); });
-                cambiarClase();
-            } catch(e) { console.log("Cargando base de datos..."); }
-        }
-
-        function cambiarClase() {
-            const container = document.getElementById('skills-container');
-            container.innerHTML = '';
-            skillTrees[document.getElementById('class-select').value].forEach(s => {
-                container.innerHTML += `<div class="skill-row"><div class="row-number">${s.row}</div><div class="skill-slot">${s.name}</div><div class="skill-slot"></div><div class="skill-slot"></div></div>`;
-            });
-        }
-
-        function abrirSelector(slot) { 
-            slotActual = slot; 
-            document.getElementById('modal').style.display = 'block'; 
-            filtrarItems(); 
-        }
-
-        function filtrarItems() {
-            const query = document.getElementById('buscador').value.toLowerCase();
-            const list = document.getElementById('modal-list');
-            list.innerHTML = `<button class="item-btn" onclick="equiparItem(null)">❌ Desequipar</button>`;
-            itemsDatabase.filter(i => i.nombre.toLowerCase().includes(query)).forEach(item => {
-                let div = document.createElement('div');
-                div.className = "item-container";
-                div.innerHTML = `<strong>${item.nombre}</strong><br>
-                    <input type="number" id="atk-${item.nombre}" placeholder="Ataque" style="width:40%">
-                    <input type="number" id="vida-${item.nombre}" placeholder="Vida" style="width:40%">
-                    <button class="item-btn" onclick="equiparItem('${item.nombre}')">Equipar</button>`;
-                list.appendChild(div);
-            });
-        }
-
-        function equiparItem(nombre) {
-            if (!nombre) {
-                equipado[slotActual] = null;
-            } else {
-                let atk = parseInt(document.getElementById('atk-'+nombre).value) || 0;
-                let vida = parseInt(document.getElementById('vida-'+nombre).value) || 0;
-                equipado[slotActual] = { nombre, atk, vida };
-            }
-            document.getElementById('slot-'+slotActual).innerText = nombre || "Slot";
-            calcularStats();
-            cerrarSelector();
-        }
-
-        function calcularStats() {
-            let totalAtk = 10, totalVida = 100;
-            Object.values(equipado).forEach(item => { 
-                if(item) { totalAtk += item.atk; totalVida += item.vida; } 
-            });
-            document.getElementById('val-ataque').innerText = totalAtk;
-            document.getElementById('val-vida').innerText = totalVida;
-        }
-
-        function cerrarSelector() { document.getElementById('modal').style.display = 'none'; }
+        const bonosPorTipo = { weapon: { stat: 'ataque', valor: 35 }, chest: { stat: 'defensa', valor: 50 }, helmet: { stat: 'life', valor: 40 } };
         
+        async function inicializar() {
+            const resStats = await fetch('stats.txt');
+            const textStats = await resStats.text();
+            textStats.split('\n').forEach(linea => { if (linea.includes('=>')) { const [llave, valor] = linea.split('=>'); statsDatabase[llave.replace('stats/', '').trim()] = valor.trim(); }});
+            
+            const resItems = await fetch('item.txt');
+            const textItems = await resItems.text();
+            textItems.split('\n').forEach(linea => { if (linea.includes('=>') && linea.includes('item_name_')) { itemsDatabase.push({id: linea.split('item_name_')[1].split('=>')[0].trim(), nombre: linea.split('=>')[1].trim(), tipo: 'weapon'}); }});
+            cambiarClase();
+        }
+        function cambiarClase() { dibujarArbol(); calcularStats(); }
+        function dibujarArbol() { const container = document.getElementById('skills-container'); container.innerHTML = ''; skillTrees[document.getElementById('class-select').value].forEach(skill => { const row = document.createElement('div'); row.className = 'skill-row'; row.innerHTML = `<div class="row-number">${skill.row}</div><div class="skill-slot-wrapper"><div class="skill-slot">${skill.name}<div class="skill-points">${skill.current}/${skill.max}</div></div></div>`; container.appendChild(row); }); }
+        function abrirSelector(slot) { slotActual = slot; document.getElementById('modal').style.display = 'block'; const list = document.getElementById('modal-list'); list.innerHTML = ''; itemsDatabase.forEach(item => { const btn = document.createElement('button'); btn.className = 'modal-item-btn'; btn.innerText = item.nombre; btn.onclick = () => { equipado[slotActual] = item; document.getElementById('slot-'+slotActual).innerText = item.nombre; cerrarSelector(); calcularStats(); }; list.appendChild(btn); }); }
+        function cerrarSelector() { document.getElementById('modal').style.display = 'none'; }
+        function calcularStats() { let stats = { ataque: 10, vida: 100 }; Object.values(equipado).forEach(item => { if (item) stats.ataque += 20; }); document.getElementById('q-dmg').innerText = stats.ataque; document.getElementById('d-life').innerText = stats.vida; }
         inicializar();
     </script>
 </body>
