@@ -49,6 +49,19 @@ document.getElementById('buscador').addEventListener('input', (e) => {
     const filtrados = listaItems.filter(i => i.nombre.toLowerCase().includes(busqueda));
     renderizarItems(filtrados);
 });
-
+function equiparItem(item) {
+    // Buscamos en el HTML todos los slots disponibles
+    const slots = document.querySelectorAll('.slot');
+    
+    // Esto es un ejemplo simple: asignamos el primer slot que esté vacío
+    // En el futuro podemos mejorar esto para que detecte si es Casco, Arma, etc.
+    for (let slot of slots) {
+        if (slot.innerText === slot.getAttribute('data-tipo')) {
+            slot.innerText = item.nombre;
+            slot.style.border = "2px solid #00e676"; // Cambia el borde a verde al equipar
+            break; // Salimos del bucle para no llenar todos los slots
+        }
+    }
+}
 // Iniciamos
 cargarDatos();
