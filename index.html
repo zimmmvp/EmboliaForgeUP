@@ -23,7 +23,13 @@
             <span class="cerrar" onclick="cerrarModal()">&times;</span>
             <h2 id="modal-titulo">Editar Ítem</h2>
             <div id="pantalla-seleccion">
-                <input type="text" id="busqueda-modal" placeholder="Filtrar..." oninput="filtrarModal(this.value)">
+                <div class="filtros-rapidos">
+                    <button onclick="filtrarPorTipo('todo')">Todo</button>
+                    <button onclick="filtrarPorTipo('arma')">Armas</button>
+                    <button onclick="filtrarPorTipo('escudo')">Escudos</button>
+                    <button onclick="filtrarPorTipo('casco')">Cascos</button>
+                </div>
+                <input type="text" id="busqueda-modal" placeholder="Filtrar por nombre..." oninput="filtrarModal(this.value)">
                 <div id="lista-modal" class="lista-items-modal"></div>
             </div>
             
