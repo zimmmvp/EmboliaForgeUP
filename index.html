@@ -9,6 +9,11 @@
     <header><h1>⚔️ Build Planner - Battle For Embolia 🛡️</h1></header>
 
     <div class="main-container">
+        <aside class="sidebar">
+            <input type="text" id="buscador" placeholder="Buscar ítem...">
+            <div id="lista-items"></div>
+        </aside>
+
         <main class="personaje-zona">
             <div class="layout-personaje">
                 <div class="columna-slots">
@@ -23,45 +28,43 @@
         </main>
     </div>
 
-    <!-- Modal Unificado -->
     <div id="modal-planner" class="modal">
-        <div class="modal-contenido" style="width: 600px;">
+        <div class="modal-contenido" style="width: 650px;">
             <span class="cerrar" onclick="cerrarModal()">&times;</span>
-            <h2 id="modal-titulo">Seleccionar Ítem</h2>
+            <h2 id="modal-titulo">Editar Ítem</h2>
             
-            <div id="pantalla-seleccion">
-                <input type="text" id="busqueda-modal" placeholder="Filtrar..." oninput="filtrarModal(this.value)">
-                <div id="lista-modal" class="lista-items-modal"></div>
-            </div>
+            <div id="pantalla-seleccion"><input type="text" id="busqueda-modal" placeholder="Filtrar..." oninput="filtrarModal(this.value)"><div id="lista-modal" class="lista-items-modal"></div></div>
             
             <div id="seccion-edicion" style="display:none;">
+                <div style="margin-bottom: 15px; display: flex; gap: 10px;">
+                    <input type="number" id="input-poder" placeholder="Poder" oninput="actualizarInfo()">
+                    <select id="select-grado" onchange="actualizarInfo()"><option value="D">Grado D</option><option value="C">Grado C</option><option value="B">Grado B</option></select>
+                    <select id="select-rareza" onchange="actualizarInfo()">
+                        <option value="normal" data-color="#ffffff">Normal</option><option value="magico" data-color="#007bff">Mágico</option>
+                        <option value="raro" data-color="#ffff00">Raro</option><option value="epico" data-color="#ff00ff">Épico</option>
+                        <option value="legendario" data-color="#ff8c00">Legendario</option>
+                    </select>
+                </div>
                 <div class="tooltip-layout">
                     <div class="tooltip-col-izq">
                         <div id="item-preview-img" class="item-img-box">?</div>
                         <div class="info-base-box">
-                            <p>Tipo: <span id="text-tipo">Arma</span></p>
                             <p>Rareza: <span id="text-rareza">Normal</span></p>
                             <p>Grado: <span id="text-grado">D</span></p>
                             <p>Poder: <span id="text-poder">0</span></p>
                         </div>
                     </div>
-                    <div class="tooltip-col-der" id="lista-mods-agregados"></div>
+                    <div class="tooltip-col-der">
+                        <label>Stats Base:</label>
+                        <input type="text" id="input-stats-base" placeholder="Ej: Defensa 10">
+                        <hr style="border:0; border-top:1px solid #444; margin: 10px 0;">
+                        <div id="lista-mods-agregados"></div>
+                    </div>
                 </div>
                 <div style="margin-top:15px;">
-                    <select id="select-rareza" onchange="actualizarInfo()">
-                        <option value="normal">Normal</option><option value="magico">Mágico</option>
-                        <option value="raro">Raro</option><option value="epico">Épico</option>
-                        <option value="legendario">Legendario</option>
-                    </select>
-                    <input type="number" id="input-poder" placeholder="Poder" oninput="actualizarInfo()">
-                    <select id="select-grado" onchange="actualizarInfo()">
-                        <option value="D">Grado D</option><option value="C">Grado C</option>
-                        <option value="B">Grado B</option>
-                    </select>
-                    <hr>
                     <select id="select-mods">
-                        <option value="Ataque">Ataque</option><option value="Critico">Critico</option>
-                        <option value="Ganancia de Vida">Ganancia de Vida</option>
+                        <option value="Critico">Critico</option><option value="Poder Critico">Poder Critico</option>
+                        <option value="Defensa">Defensa</option><option value="Evasion">Evasion</option>
                     </select>
                     <input type="number" id="input-valor-mod" placeholder="Valor">
                     <button onclick="agregarModSeleccionado()">Agregar</button>
