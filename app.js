@@ -1,21 +1,22 @@
 let listaItems = [];
 
 async function cargarDatos() {
-    const res = await fetch('data/item.txt');
-    const texto = await res.text();
-    texto.split('\n').forEach(linea => {
-        if (linea.includes('item_name_')) {
-            const [llave, valor] = linea.split('=>');
-            listaItems.push({ id: llave.split('item_name_')[1].trim(), nombre: valor.trim() });
-        }
-    });
+    try {
+        const res = await fetch('data/item.txt');
+        const texto = await res.text();
+        texto.split('\n').forEach(linea => {
+            if (linea.includes('item_name_')) {
+                const [llave, valor] = linea.split('=>');
+                listaItems.push({ id: llave.split('item_name_')[1].trim(), nombre: valor.trim() });
+            }
+        });
+    } catch (e) { console.error("Error cargando items"); }
 }
 
 function abrirModalParaSeleccion(tipo) {
     document.getElementById('modal-planner').style.display = "block";
     document.getElementById('seccion-edicion').style.display = "none";
     document.getElementById('pantalla-seleccion').style.display = "block";
-    
     const filtrados = listaItems.filter(i => i.nombre.toLowerCase().includes(tipo.toLowerCase()));
     const contenedor = document.getElementById('lista-modal');
     contenedor.innerHTML = '';
@@ -37,11 +38,10 @@ function activarEdicion(item) {
 function actualizarInfo() {
     document.getElementById('text-poder').innerText = document.getElementById('input-poder').value || 0;
     document.getElementById('text-grado').innerText = document.getElementById('select-grado').value;
-    const rareza = document.getElementById('select-rareza').value;
-    document.getElementById('text-rareza').innerText = rareza;
-    
-    const colores = { 'normal': '#ffffff', 'magico': '#007bff', 'raro': '#ffff00', 'epico': '#ff00ff', 'legendario': '#ff8c00' };
-    document.getElementById('item-preview-img').style.borderColor = colores[rareza];
+    const rarezaSelect = document.getElementById('select-rareza');
+    const color = rarezaSelect.options[rarezaSelect.selectedIndex].getAttribute('data-color');
+    document.getElementById('text-rareza').innerText = rarezaSelect.options[rarezaSelect.selectedIndex].text;
+    document.getElementById('item-preview-img').style.borderColor = color;
 }
 
 function agregarModSeleccionado() {
@@ -52,9 +52,9 @@ function agregarModSeleccionado() {
         div.className = 'stat-item';
         div.innerText = mod + ": " + valor;
         document.getElementById('lista-mods-agregados').appendChild(div);
+        document.getElementById('input-valor-mod').value = '';
     }
 }
 
 function cerrarModal() { document.getElementById('modal-planner').style.display = "none"; }
-
 cargarDatos();
