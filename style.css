@@ -70,3 +70,9 @@ body { background-color: #121214; color: #e1e1e6; font-family: sans-serif; margi
     color: white; display: flex; flex-direction: column; gap: 10px;
 }
 .cerrar { float: right; cursor: pointer; color: #aaa; text-align: right; }
+.lista-items-modal {
+    height: 300px;
+    overflow-y: auto;
+    border: 1px solid #444;
+    margin-top: 10px;
+}
