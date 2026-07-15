@@ -36,11 +36,8 @@ function activarEdicion(item) {
 }
 
 function actualizarInfo() {
-    document.getElementById('text-poder').innerText = document.getElementById('input-poder').value || 0;
-    document.getElementById('text-grado').innerText = document.getElementById('select-grado').value;
     const rarezaSelect = document.getElementById('select-rareza');
     const color = rarezaSelect.options[rarezaSelect.selectedIndex].getAttribute('data-color');
-    document.getElementById('text-rareza').innerText = rarezaSelect.options[rarezaSelect.selectedIndex].text;
     document.getElementById('item-preview-img').style.borderColor = color;
 }
 
