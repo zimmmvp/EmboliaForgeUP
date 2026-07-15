@@ -1,17 +1,70 @@
-let listaItems = [];
-let tipoSeleccionado = 'todo';
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Planner Battle For Embolia</title>
+</head>
+<body>
+    <header><h1>⚔️ Build Planner - Battle For Embolia 🛡️</h1></header>
+    <div class="main-container">
+        <aside class="sidebar"><input type="text" id="buscador" placeholder="Buscar ítem..."><div id="lista-items"></div></aside>
+        <main class="personaje-zona">
+            <div class="layout-personaje">
+                <div class="columna-slots"><div class="slot" data-tipo="armadura" onclick="abrirModalParaSeleccion('armadura')">Armadura</div><div class="slot" data-tipo="casco" onclick="abrirModalParaSeleccion('casco')">Casco</div></div>
+                <div class="imagen-personaje">👤</div>
+                <div class="columna-slots"><div class="slot" data-tipo="arma" onclick="abrirModalParaSeleccion('arma')">Arma</div></div>
+            </div>
+        </main>
+    </div>
 
-async function cargarDatos() { try { const res = await fetch('data/item.txt'); const texto = await res.text(); texto.split('\n').forEach(linea => { if (linea.includes('item_name_')) { const [llave, valor] = linea.split('=>'); listaItems.push({ id: llave.split('item_name_')[1].trim(), nombre: valor.trim() }); } }); } catch (e) { console.error("Error"); } }
-
-function abrirModalParaSeleccion(tipo) { document.getElementById('modal-planner').style.display = "block"; document.getElementById('seccion-edicion').style.display = "none"; document.getElementById('pantalla-seleccion').style.display = "block"; const contenedor = document.getElementById('lista-modal'); contenedor.innerHTML = ''; listaItems.forEach(item => { const div = document.createElement('div'); div.className = 'item-card'; div.innerText = item.nombre; div.onclick = () => activarEdicion(item); contenedor.appendChild(div); }); }
-
-function filtrarPorTipo(tipo) { tipoSeleccionado = tipo; filtrarModal(document.getElementById('busqueda-modal').value); }
-
-function filtrarModal(texto) { const busqueda = texto.toLowerCase(); const items = document.getElementsByClassName('item-card'); for (let item of items) { const nombre = item.innerText.toLowerCase(); const coincideNombre = nombre.includes(busqueda); const coincideTipo = (tipoSeleccionado === 'todo' || nombre.includes(tipoSeleccionado)); item.style.display = (coincideNombre && coincideTipo) ? "" : "none"; } }
-
-function activarEdicion(item) { document.getElementById('modal-titulo').innerText = "Editar: " + item.nombre; document.getElementById('pantalla-seleccion').style.display = "none"; document.getElementById('seccion-edicion').style.display = "block"; }
-function actualizarInfo() { const rarezaSelect = document.getElementById('select-rareza'); document.getElementById('item-preview-img').style.borderColor = rarezaSelect.options[rarezaSelect.selectedIndex].getAttribute('data-color'); }
-function agregarStatBase() { const tipo = document.getElementById('new-stat-tipo').value; const valor = document.getElementById('new-stat-valor').value; if(valor) { const div = document.createElement('div'); div.className = 'stat-item'; div.innerText = tipo + ": " + valor; document.getElementById('lista-stats-base').appendChild(div); document.getElementById('new-stat-valor').value = ''; } }
-function agregarModSeleccionado() { const mod = document.getElementById('select-mods').value; const valor = document.getElementById('input-valor-mod').value; if(mod && valor) { const div = document.createElement('div'); div.className = 'stat-item'; div.innerText = mod + ": " + valor; document.getElementById('lista-mods-agregados').appendChild(div); document.getElementById('input-valor-mod').value = ''; } }
-function cerrarModal() { document.getElementById('modal-planner').style.display = "none"; }
-cargarDatos();
+    <div id="modal-planner" class="modal">
+        <div class="modal-contenido" style="width: 750px;">
+            <span class="cerrar" onclick="cerrarModal()">&times;</span>
+            <h2 id="modal-titulo">Editar Ítem</h2>
+            <div id="pantalla-seleccion">
+                <div class="filtros-rapidos">
+                    <button onclick="filtrarPorTipo('todo')">Todo</button>
+                    <button onclick="filtrarPorTipo('arma')">Armas</button>
+                    <button onclick="filtrarPorTipo('espada')">Espadas</button>
+                    <button onclick="filtrarPorTipo('daga')">Dagas</button>
+                    <button onclick="filtrarPorTipo('baston')">Bastones</button>
+                    <button onclick="filtrarPorTipo('escudo')">Escudos</button>
+                    <button onclick="filtrarPorTipo('casco')">Cascos</button>
+                </div>
+                <input type="text" id="busqueda-modal" placeholder="Filtrar por nombre..." oninput="filtrarModal(this.value)">
+                <div id="lista-modal" class="lista-items-modal"></div>
+            </div>
+            
+            <div id="seccion-edicion" style="display:none;">
+                <div class="tooltip-layout-final">
+                    <div class="col-izq">
+                        <div id="item-preview-img" class="item-img-box">?</div>
+                        <div class="controles-form">
+                            <div class="fila-control"><label>Nivel:</label><select id="select-nivel" onchange="actualizarInfo()"><option value="+0">+0</option><option value="+1">+1</option><option value="+2">+2</option><option value="+3">+3</option><option value="+4">+4</option><option value="+5">+5</option></select></div>
+                            <div class="fila-control"><label>Rareza:</label><select id="select-rareza" onchange="actualizarInfo()"><option value="normal" data-color="#ffffff">Normal</option><option value="magico" data-color="#007bff">Mágico</option><option value="raro" data-color="#ffff00">Raro</option><option value="epico" data-color="#ff00ff">Épico</option><option value="legendario" data-color="#ff8c00">Legendario</option></select></div>
+                            <div class="fila-control"><label>Grado:</label><select id="select-grado"><option value="D">D</option><option value="C">C</option><option value="B">B</option></select></div>
+                            <div class="fila-control"><label>Poder:</label><input type="number" id="input-poder"></div>
+                        </div>
+                    </div>
+                    <div class="col-der">
+                        <div class="bloque-stats">
+                            <h3>Stats Base</h3>
+                            <div id="lista-stats-base"></div>
+                            <div style="display:flex; gap:5px;"><select id="new-stat-tipo"><option value="Defensa">Defensa</option><option value="Evasion">Evasion</option></select><input type="number" id="new-stat-valor" style="width:50px;"><button onclick="agregarStatBase()">+</button></div>
+                        </div>
+                        <hr style="margin: 15px 0;">
+                        <div class="bloque-mods">
+                            <h3>Modificadores</h3>
+                            <div id="lista-mods-agregados"></div>
+                            <div style="display: flex; gap: 5px; margin-top:5px;"><select id="select-mods"><option value="Critico">Critico</option><option value="Defensa">Defensa</option></select><input type="number" id="input-valor-mod" placeholder="Valor" style="width: 60px;"><button onclick="agregarModSeleccionado()">Agregar</button></div>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="cerrarModal()" style="width: 100%; margin-top: 20px; padding: 10px;">Guardar y Cerrar</button>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
