@@ -49,4 +49,26 @@ document.getElementById('input-stats').addEventListener('keypress', function (e)
         }
     }
 });
+function actualizarColorRareza() {
+    const selector = document.getElementById('select-rareza');
+    const color = selector.options[selector.selectedIndex].getAttribute('data-color');
+    const imgBox = document.getElementById('item-preview-img');
+    imgBox.style.borderColor = color;
+    imgBox.style.color = color; // Cambia el color del borde y texto según rareza
+}
+
+function agregarModSeleccionado() {
+    const mod = document.getElementById('select-mods').value;
+    const valor = document.getElementById('input-valor-mod').value;
+    
+    if(mod && valor) {
+        const contenedor = document.getElementById('lista-mods-agregados');
+        const div = document.createElement('div');
+        div.innerText = mod + ": " + valor;
+        contenedor.appendChild(div);
+        
+        // Limpiamos los inputs tras agregar
+        document.getElementById('input-valor-mod').value = '';
+    }
+}
 cargarDatos();
