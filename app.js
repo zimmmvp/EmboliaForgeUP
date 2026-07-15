@@ -3,7 +3,7 @@ let listaItems = [];
 async function cargarDatos() {
     try {
         // Leemos el archivo item.txt
-        const res = await fetch('item.txt');
+        const res = await fetch('data/item.txt');
         const texto = await res.text();
         
         // Procesamos línea por línea
