@@ -29,61 +29,42 @@
     </div>
 
     <!-- Modal Único -->
-    <div id="modal-planner" class="modal">
-        <div class="modal-contenido">
-            <span class="cerrar" onclick="cerrarModal()">&times;</span>
-            <h2 id="modal-titulo">Seleccionar</h2>
-            <input type="text" id="busqueda-modal" placeholder="Filtrar..." oninput="filtrarModal(this.value)">
-            <div id="lista-modal" class="lista-items-modal"></div>
-            
-<div id="seccion-edicion" style="display:none;">
-    <div class="editor-layout">
-        <div id="item-preview-img" class="item-img-box">?</div>
-        <div class="editor-controles">
-            <label>Nivel (+):</label>
-            <input type="number" id="input-nivel" min="0" max="5" value="0">
-            
-            <label>Rareza:</label>
-            <select id="select-rareza" onchange="actualizarColorRareza()">
-                <option value="normal" data-color="#ffffff">Normal</option>
-                <option value="magico" data-color="#007bff">Mágico</option>
-                <option value="raro" data-color="#ffff00">Raro</option>
-                <option value="epico" data-color="#ff00ff">Épico</option>
-                <option value="legendario" data-color="#ff8c00">Legendario</option>
+<div id="modal-planner" class="modal">
+    <div class="modal-contenido" style="width: 600px;">
+        <span class="cerrar" onclick="cerrarModal()">&times;</span>
+        <h2 id="modal-titulo">Editar Ítem</h2>
+        
+        <!-- Inputs para editar info base -->
+        <div style="display:flex; gap:10px; margin-bottom:15px;">
+            <input type="number" id="input-poder" placeholder="Poder" oninput="actualizarInfo()">
+            <select id="select-grado" onchange="actualizarInfo()">
+                <option value="D">Grado D</option><option value="C">Grado C</option><option value="B">Grado B</option>
             </select>
         </div>
+
+        <div class="tooltip-layout">
+            <div class="tooltip-col-izq">
+                <div id="item-preview-img" class="item-img-box">?</div>
+                <div class="info-base-box">
+                    <p>Tipo: <span id="text-tipo">Arma</span></p>
+                    <p>Rareza: <span id="text-rareza">Magico</span></p>
+                    <p>Grado: <span id="text-grado">C</span></p>
+                    <p>Poder: <span id="text-poder">36</span></p>
+                </div>
+            </div>
+            <div class="tooltip-col-der" id="lista-mods-agregados"></div>
+        </div>
+
+        <div style="margin-top:15px;">
+            <select id="select-mods">
+                <option value="Ataque">Ataque</option>
+                <option value="Critico">Critico</option>
+                <option value="Ganancia de Vida">Ganancia de Vida</option>
+            </select>
+            <input type="number" id="input-valor-mod" placeholder="Valor">
+            <button onclick="agregarModSeleccionado()">Agregar</button>
+        </div>
     </div>
-
-    <!-- Nuevos campos: Grado y Poder -->
-    <label>Grado:</label>
-    <select id="select-grado">
-        <option value="D">Grado D</option>
-        <option value="C">Grado C</option>
-        <option value="B">Grado B</option>
-    </select>
-
-    <label>Poder:</label>
-    <input type="number" id="input-poder" placeholder="Ej: 150">
-
-    <!-- Selector de Modificadores -->
-    <label>Añadir Modificador:</label>
-    <select id="select-mods" onchange="agregarModSeleccionado()">
-        <option value="">Selecciona un mod...</option>
-        <option value="Regeneración de Vida">Regeneración de Vida</option>
-        <option value="Vida Máxima">Vida Máxima</option>
-        <option value="Ataque">Ataque</option>
-    </select>
-    <input type="number" id="input-valor-mod" placeholder="Valor (ej: 10)">
-
-    <div id="lista-mods-agregados"></div>
-    <button onclick="cerrarModal()">Guardar Cambios</button>
-</div>
-
-    <label>Modificadores:</label>
-    <div id="lista-mods-agregados"></div> <!-- Aquí se listarán los stats seleccionados -->
-    <input type="text" id="input-stats" placeholder="Ej: +10 Vida (Presiona Enter)">
-    
-    <button onclick="cerrarModal()">Guardar Cambios</button>
 </div>
     <script src="app.js"></script>
 </body>
