@@ -71,4 +71,33 @@ function agregarModSeleccionado() {
         document.getElementById('input-valor-mod').value = '';
     }
 }
+// Esta función sincroniza los inputs con el visual de la izquierda
+function actualizarInfo() {
+    document.getElementById('text-poder').innerText = document.getElementById('input-poder').value || 0;
+    document.getElementById('text-grado').innerText = document.getElementById('select-grado').value;
+    
+    // Cambiar color de rareza
+    const rareza = document.getElementById('select-rareza').value;
+    document.getElementById('text-rareza').innerText = rareza;
+    document.getElementById('item-preview-img').style.borderColor = 
+        rareza === 'Magico' ? '#007bff' : '#ffffff';
+}
+
+function agregarModSeleccionado() {
+    const mod = document.getElementById('select-mods').value;
+    const valor = document.getElementById('input-valor-mod').value;
+    
+    if(mod && valor) {
+        const contenedor = document.getElementById('lista-mods-agregados');
+        const div = document.createElement('div');
+        div.className = 'stat-item';
+        div.innerText = mod + ": " + valor;
+        contenedor.appendChild(div);
+        
+        document.getElementById('input-valor-mod').value = '';
+    }
+}
+
+// Asegúrate de llamar a actualizarInfo cuando cambie el selector de rareza
+document.getElementById('select-rareza').addEventListener('change', actualizarInfo);
 cargarDatos();
