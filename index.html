@@ -36,24 +36,48 @@
             <input type="text" id="busqueda-modal" placeholder="Filtrar..." oninput="filtrarModal(this.value)">
             <div id="lista-modal" class="lista-items-modal"></div>
             
-            <div id="seccion-edicion" style="display:none;">
+<div id="seccion-edicion" style="display:none;">
     <div class="editor-layout">
-        <!-- Espacio para la imagen -->
         <div id="item-preview-img" class="item-img-box">?</div>
-        
         <div class="editor-controles">
-            <label>Rareza:</label>
-            <select id="select-rareza">
-                <option value="normal">Normal</option>
-                <option value="magico">Mágico</option>
-                <option value="raro">Raro</option>
-                <option value="legendario">Legendario</option>
-            </select>
-
             <label>Nivel (+):</label>
             <input type="number" id="input-nivel" min="0" max="5" value="0">
+            
+            <label>Rareza:</label>
+            <select id="select-rareza" onchange="actualizarColorRareza()">
+                <option value="normal" data-color="#ffffff">Normal</option>
+                <option value="magico" data-color="#007bff">Mágico</option>
+                <option value="raro" data-color="#ffff00">Raro</option>
+                <option value="epico" data-color="#ff00ff">Épico</option>
+                <option value="legendario" data-color="#ff8c00">Legendario</option>
+            </select>
         </div>
     </div>
+
+    <!-- Nuevos campos: Grado y Poder -->
+    <label>Grado:</label>
+    <select id="select-grado">
+        <option value="D">Grado D</option>
+        <option value="C">Grado C</option>
+        <option value="B">Grado B</option>
+    </select>
+
+    <label>Poder:</label>
+    <input type="number" id="input-poder" placeholder="Ej: 150">
+
+    <!-- Selector de Modificadores -->
+    <label>Añadir Modificador:</label>
+    <select id="select-mods" onchange="agregarModSeleccionado()">
+        <option value="">Selecciona un mod...</option>
+        <option value="Regeneración de Vida">Regeneración de Vida</option>
+        <option value="Vida Máxima">Vida Máxima</option>
+        <option value="Ataque">Ataque</option>
+    </select>
+    <input type="number" id="input-valor-mod" placeholder="Valor (ej: 10)">
+
+    <div id="lista-mods-agregados"></div>
+    <button onclick="cerrarModal()">Guardar Cambios</button>
+</div>
 
     <label>Modificadores:</label>
     <div id="lista-mods-agregados"></div> <!-- Aquí se listarán los stats seleccionados -->
