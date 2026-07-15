@@ -59,18 +59,24 @@
 
     <script src="app.js"></script>
     <!-- Modal de Edición -->
-<div id="modal-edicion" class="modal">
+<div id="modal-planner" class="modal">
     <div class="modal-contenido">
         <span class="cerrar" onclick="cerrarModal()">&times;</span>
-        <h2 id="titulo-item">Editar Ítem</h2>
+        <h2 id="modal-titulo">Seleccionar Ítem</h2>
         
-        <label>Rareza:</label>
-        <select id="select-rareza">
-            <option>Normal</option>
-            <option>Mágico</option>
-            <option>Raro</option>
-            <option>Legendario</option>
-        </select>
+        <!-- Esta parte se usará para filtrar -->
+        <input type="text" id="busqueda-modal" placeholder="Buscar..." oninput="filtrarModal(this.value)">
+        
+        <div id="lista-modal" class="lista-items-modal"></div>
+        
+        <!-- Opciones de edición (Ocultas por defecto) -->
+        <div id="seccion-edicion" style="display:none;">
+            <label>Rareza:</label>
+            <select id="select-rareza"><option>Normal</option><option>Raro</option></select>
+            <button onclick="guardarEdicion()">Guardar Cambios</button>
+        </div>
+    </div>
+</div>
 
         <label>Nivel (+):</label>
         <input type="number" id="input-nivel" min="0" max="5" value="0">
