@@ -18,7 +18,11 @@ body { background-color: #121214; color: #e1e1e6; font-family: sans-serif; margi
 .fila-control label { width: 60px; text-align: right; font-weight: bold; }
 #input-poder { width: 60px; }
 
-.lista-items-modal { height: 350px; overflow-y: auto; border: 1px solid #444; border-radius: 6px; margin-top: 15px; background: #1a1a1e; }
+.filtros-rapidos { display: flex; gap: 5px; margin-bottom: 10px; }
+.filtros-rapidos button { background: #333; color: white; border: 1px solid #555; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
+.filtros-rapidos button:hover { background: #00e676; color: black; }
+
+.lista-items-modal { height: 350px; overflow-y: auto; border: 1px solid #444; border-radius: 6px; margin-top: 5px; background: #1a1a1e; }
 .item-card { padding: 12px 15px; border-bottom: 1px solid #333; cursor: pointer; transition: background 0.2s; color: #e1e1e6; }
 .item-card:hover { background-color: #2a2a30; color: #00e676; }
 
