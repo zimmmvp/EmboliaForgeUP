@@ -7,7 +7,6 @@
 </head>
 <body>
     <header><h1>⚔️ Build Planner - Battle For Embolia 🛡️</h1></header>
-
     <div class="main-container">
         <aside class="sidebar">
             <input type="text" id="buscador" placeholder="Buscar ítem...">
@@ -23,7 +22,7 @@
     </div>
 
     <div id="modal-planner" class="modal">
-        <div class="modal-contenido" style="width: 800px;">
+        <div class="modal-contenido" style="width: 750px;">
             <span class="cerrar" onclick="cerrarModal()">&times;</span>
             <h2 id="modal-titulo">Editar Ítem</h2>
             <div id="pantalla-seleccion"><input type="text" id="busqueda-modal" placeholder="Filtrar..." oninput="filtrarModal(this.value)"><div id="lista-modal" class="lista-items-modal"></div></div>
@@ -33,10 +32,10 @@
                     <div class="col-izq">
                         <div id="item-preview-img" class="item-img-box">?</div>
                         <div class="controles-form">
-                            <div class="fila-control"><label>Nivel:</label><select id="select-nivel" onchange="actualizarInfo()"><option value="+0">+0</option><option value="+1">+1</option><option value="+2">+2</option><option value="+3">+3</option><option value="+4">+4</option><option value="+5">+5</option></select></div>
-                            <div class="fila-control"><label>Rareza:</label><select id="select-rareza" onchange="actualizarInfo()"><option value="normal" data-color="#ffffff">Normal</option><option value="magico" data-color="#007bff">Mágico</option><option value="raro" data-color="#ffff00">Raro</option><option value="epico" data-color="#ff00ff">Épico</option><option value="legendario" data-color="#ff8c00">Legendario</option></select></div>
-                            <div class="fila-control"><label>Grado:</label><select id="select-grado" onchange="actualizarInfo()"><option value="D">D</option><option value="C">C</option><option value="B">B</option></select></div>
-                            <div class="fila-control"><label>Poder:</label><input type="number" id="input-poder" oninput="actualizarInfo()"></div>
+                            <label>Nivel:</label><select id="select-nivel" onchange="actualizarInfo()"><option value="+0">+0</option><option value="+1">+1</option><option value="+2">+2</option><option value="+3">+3</option><option value="+4">+4</option><option value="+5">+5</option></select>
+                            <label>Rareza:</label><select id="select-rareza" onchange="actualizarInfo()"><option value="normal" data-color="#ffffff">Normal</option><option value="magico" data-color="#007bff">Mágico</option><option value="raro" data-color="#ffff00">Raro</option><option value="epico" data-color="#ff00ff">Épico</option><option value="legendario" data-color="#ff8c00">Legendario</option></select>
+                            <label>Grado:</label><select id="select-grado"><option value="D">Grado D</option><option value="C">Grado C</option><option value="B">Grado B</option></select>
+                            <label>Poder:</label><input type="number" id="input-poder">
                         </div>
                     </div>
                     <div class="col-der">
