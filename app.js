@@ -38,5 +38,15 @@ function activarEdicion(item) {
 function cerrarModal() {
     document.getElementById('modal-planner').style.display = "none";
 }
-
+document.getElementById('input-stats').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        const mod = e.target.value;
+        if(mod) {
+            const div = document.createElement('div');
+            div.innerText = "+ " + mod;
+            document.getElementById('lista-mods-agregados').appendChild(div);
+            e.target.value = ''; // Limpiar input
+        }
+    }
+});
 cargarDatos();
