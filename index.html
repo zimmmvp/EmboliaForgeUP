@@ -7,15 +7,23 @@
 </head>
 <body>
     <header><h1>⚔️ Build Planner - Battle For Embolia 🛡️</h1></header>
-    <div class="main-container">
-        <aside class="sidebar"><input type="text" id="buscador" placeholder="Buscar ítem..."><div id="lista-items"></div></aside>
-        <main class="personaje-zona">
+    <div class="main-layout">
+        <aside class="col-habilidades">
+            <h2>Habilidades</h2>
+            <div id="lista-habilidades"></div>
+        </aside>
+        <main class="col-equipamiento">
+            <h2>Equipamiento</h2>
             <div class="layout-personaje">
                 <div class="columna-slots"><div class="slot" data-tipo="armadura" onclick="abrirModalParaSeleccion('armadura')">Armadura</div><div class="slot" data-tipo="casco" onclick="abrirModalParaSeleccion('casco')">Casco</div></div>
                 <div class="imagen-personaje">👤</div>
                 <div class="columna-slots"><div class="slot" data-tipo="arma" onclick="abrirModalParaSeleccion('arma')">Arma</div></div>
             </div>
         </main>
+        <aside class="col-estadisticas">
+            <h2>Estadísticas</h2>
+            <div id="lista-estadisticas"></div>
+        </aside>
     </div>
 
     <div id="modal-planner" class="modal">
@@ -35,7 +43,6 @@
                 <input type="text" id="busqueda-modal" placeholder="Filtrar por nombre..." oninput="filtrarModal(this.value)">
                 <div id="lista-modal" class="lista-items-modal"></div>
             </div>
-            
             <div id="seccion-edicion" style="display:none;">
                 <div class="tooltip-layout-final">
                     <div class="col-izq">
