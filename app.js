@@ -96,3 +96,16 @@ function equiparItem(item) {
         }
     }
 }
+function filtrarPorTipo(tipo) {
+    console.log("Filtrando por:", tipo);
+    
+    // Filtramos la lista global listaItems
+    // Nota: Como tus nombres en el txt no tienen el tipo, 
+    // tendríamos que asociar el nombre al tipo. 
+    // Por ahora, buscaremos si el nombre contiene la palabra del tipo:
+    const filtrados = listaItems.filter(i => 
+        i.nombre.toLowerCase().includes(tipo.toLowerCase())
+    );
+    
+    renderizarItems(filtrados);
+}
