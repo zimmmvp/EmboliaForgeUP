@@ -1,24 +1,25 @@
 let listaItems = [];
 let tipoSeleccionado = 'todo';
 
-const stats = [
-    "Vida Maxima", "Mana Maxima", "Ataque", "Ataque Magico", "Defensa", "Defensa Magica", 
-    "Evasion", "Resistencia al fuego", "Resistencia a los rayos", "Resistencia al frio",
-    "Dano de Fuego", "Dano de Rayo", "Dano de Frio", "Critico", "Critico Magico", 
-    "Poder Critico", "Poder Critico Magico", "Velocidad de Movimiento", "Regeneracion Vida", 
-    "Regeneracion Mana", "Chance de Bloqueo", "Bloqueo de Dano", "Experiencia aumentada obtenida",
-    "Ganancia de Vida", "Area de Efecto", "Hallazgo magico", "Velocidad de mineria", 
-    "Eficiencia minera", "Cantidad de mineria", "Raridad minera", "Generador de mineria", 
-    "Radio de agarre minero"
-];
-
 function cargarEstadisticas() {
     const contenedor = document.getElementById('lista-estadisticas');
-    stats.forEach(stat => {
+    LISTA_STATS.forEach(stat => {
         const div = document.createElement('div');
         div.className = 'stat-linea';
         div.innerHTML = `<span>${stat}:</span> <span id="stat-${stat.replace(/ /g, '-')}">0</span>`;
         contenedor.appendChild(div);
+    });
+}
+
+function inicializarSelectores() {
+    const selects = [document.getElementById('new-stat-tipo'), document.getElementById('select-mods')];
+    selects.forEach(select => {
+        LISTA_STATS.forEach(stat => {
+            const option = document.createElement('option');
+            option.value = stat;
+            option.text = stat;
+            select.appendChild(option);
+        });
     });
 }
 
@@ -30,10 +31,10 @@ function filtrarPorTipo(tipo) { tipoSeleccionado = tipo; filtrarModal(document.g
 function filtrarModal(texto) { const busqueda = texto.toLowerCase(); const items = document.getElementsByClassName('item-card'); for (let item of items) { const nombre = item.innerText.toLowerCase(); const coincideNombre = nombre.includes(busqueda); const coincideTipo = (tipoSeleccionado === 'todo' || nombre.includes(tipoSeleccionado)); item.style.display = (coincideNombre && coincideTipo) ? "" : "none"; } }
 
 function activarEdicion(item) { document.getElementById('modal-titulo').innerText = "Editar: " + item.nombre; document.getElementById('pantalla-seleccion').style.display = "none"; document.getElementById('seccion-edicion').style.display = "block"; }
-function actualizarInfo() { const rarezaSelect = document.getElementById('select-rareza'); document.getElementById('item-preview-img').style.borderColor = rarezaSelect.options[rarezaSelect.selectedIndex].getAttribute('data-color'); }
 function agregarStatBase() { const tipo = document.getElementById('new-stat-tipo').value; const valor = document.getElementById('new-stat-valor').value; if(valor) { const div = document.createElement('div'); div.className = 'stat-item'; div.innerText = tipo + ": " + valor; document.getElementById('lista-stats-base').appendChild(div); document.getElementById('new-stat-valor').value = ''; } }
 function agregarModSeleccionado() { const mod = document.getElementById('select-mods').value; const valor = document.getElementById('input-valor-mod').value; if(mod && valor) { const div = document.createElement('div'); div.className = 'stat-item'; div.innerText = mod + ": " + valor; document.getElementById('lista-mods-agregados').appendChild(div); document.getElementById('input-valor-mod').value = ''; } }
 function cerrarModal() { document.getElementById('modal-planner').style.display = "none"; }
 
 cargarDatos();
 cargarEstadisticas();
+inicializarSelectores();
