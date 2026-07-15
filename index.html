@@ -18,15 +18,30 @@
         </aside>
 
         <!-- Zona 2: Personaje -->
-        <main class="personaje-zona">
-            <h2 id="nombre-personaje">Guerrero Zombie</h2>
-            <div class="slots-container">
-                <div class="slot" data-tipo="casco">Casco</div>
-                <div class="slot" data-tipo="armadura">Armadura</div>
-                <div class="slot" data-tipo="arma">Arma</div>
-                <div class="slot" data-tipo="botas">Botas</div>
-            </div>
-        </main>
+        <!-- Reemplaza el bloque de <main class="personaje-zona"> con esto -->
+<main class="personaje-zona">
+    <h2 id="nombre-personaje">Guerrero Zombie</h2>
+    
+    <div class="layout-personaje">
+        <!-- Columna Izquierda -->
+        <div class="columna-slots">
+            <div class="slot" data-tipo="casco">Casco</div>
+            <div class="slot" data-tipo="armadura">Armadura</div>
+        </div>
+
+        <!-- Personaje en el medio -->
+        <div class="imagen-personaje">
+            <div class="placeholder-img">👤</div>
+        </div>
+
+        <!-- Columna Derecha -->
+        <div class="columna-slots">
+            <div class="slot" data-tipo="guantes">Guantes</div>
+            <div class="slot" data-tipo="botas">Botas</div>
+            <div class="slot" data-tipo="arma">Arma</div>
+        </div>
+    </div>
+</main>
 
         <!-- Zona 3: Stats -->
         <section class="stats-panel">
