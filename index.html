@@ -8,18 +8,49 @@
 <body>
     <header><h1>⚔️ Build Planner - Battle For Embolia 🛡️</h1></header>
     <div class="main-layout">
-        <aside class="col-habilidades"><h2>Habilidades</h2><div id="lista-habilidades"></div></aside>
+        <!-- Columna 1: Habilidades -->
+        <aside class="col-habilidades">
+            <h2>Habilidades</h2>
+            <div id="lista-habilidades"></div>
+        </aside>
+
+        <!-- Columna 2: Equipamiento (Layout del Juego) -->
         <main class="col-equipamiento">
             <h2>Equipamiento</h2>
-            <div class="layout-personaje">
-                <div class="columna-slots"><div class="slot" data-tipo="armadura" onclick="abrirModalParaSeleccion('armadura')">Armadura</div><div class="slot" data-tipo="casco" onclick="abrirModalParaSeleccion('casco')">Casco</div></div>
-                <div class="imagen-personaje">👤</div>
-                <div class="columna-slots"><div class="slot" data-tipo="arma" onclick="abrirModalParaSeleccion('arma')">Arma</div></div>
+            <div class="personaje-grid">
+                <!-- Columna Izquierda Slots -->
+                <div class="col-slots">
+                    <div class="slot" data-tipo="casco" onclick="abrirModalParaSeleccion('casco')">Casco</div>
+                    <div class="slot" data-tipo="armadura" onclick="abrirModalParaSeleccion('armadura')">Armadura</div>
+                    <div class="slot" data-tipo="guantes" onclick="abrirModalParaSeleccion('guantes')">Guantes</div>
+                    <div class="slot" data-tipo="arma" onclick="abrirModalParaSeleccion('arma')">Arma</div>
+                    <div class="slot" data-tipo="pico" onclick="abrirModalParaSeleccion('pico')">Pico</div>
+                </div>
+                
+                <!-- Centro: Imagen -->
+                <div class="centro-personaje">
+                    <div class="imagen-personaje">👤</div>
+                </div>
+                
+                <!-- Columna Derecha Slots -->
+                <div class="col-slots">
+                    <div class="slot" data-tipo="collar" onclick="abrirModalParaSeleccion('collar')">Collar</div>
+                    <div class="slot" data-tipo="anillo" onclick="abrirModalParaSeleccion('anillo')">Anillo</div>
+                    <div class="slot" data-tipo="botas" onclick="abrirModalParaSeleccion('botas')">Botas</div>
+                    <div class="slot" data-tipo="arma-der" onclick="abrirModalParaSeleccion('arma')">Arma</div>
+                    <div class="slot" data-tipo="alas" onclick="abrirModalParaSeleccion('alas')">Alas</div>
+                </div>
             </div>
         </main>
-        <aside class="col-estadisticas"><h2>Estadísticas</h2><div id="lista-estadisticas"></div></aside>
+
+        <!-- Columna 3: Estadísticas -->
+        <aside class="col-estadisticas">
+            <h2>Estadísticas</h2>
+            <div id="lista-estadisticas"></div>
+        </aside>
     </div>
 
+    <!-- Modal de Edición -->
     <div id="modal-planner" class="modal">
         <div class="modal-contenido" style="width: 750px;">
             <span class="cerrar" onclick="cerrarModal()">&times;</span>
@@ -37,15 +68,14 @@
                 <input type="text" id="busqueda-modal" placeholder="Filtrar por nombre..." oninput="filtrarModal(this.value)">
                 <div id="lista-modal" class="lista-items-modal"></div>
             </div>
-            
             <div id="seccion-edicion" style="display:none;">
                 <div class="tooltip-layout-final">
                     <div class="col-izq">
                         <div id="item-preview-img" class="item-img-box">?</div>
                         <div class="controles-form">
-                            <div class="fila-control"><label>Nivel:</label><select id="select-nivel"><option>+0</option><option>+1</option></select></div>
-                            <div class="fila-control"><label>Rareza:</label><select id="select-rareza"><option>Normal</option></select></div>
-                            <div class="fila-control"><label>Grado:</label><select id="select-grado"><option>D</option></select></div>
+                            <div class="fila-control"><label>Nivel:</label><select id="select-nivel"></select></div>
+                            <div class="fila-control"><label>Rareza:</label><select id="select-rareza"></select></div>
+                            <div class="fila-control"><label>Grado:</label><select id="select-grado"></select></div>
                             <div class="fila-control"><label>Poder:</label><input type="number" id="input-poder"></div>
                         </div>
                     </div>
