@@ -50,20 +50,24 @@ document.getElementById('buscador').addEventListener('input', (e) => {
     renderizarItems(filtrados);
 });
 function equiparItem(item) {
-    console.log("Equipando:", item.nombre);
-    
-    // Buscamos en el HTML todos los slots disponibles
+    console.log("Intentando equipar:", item.nombre);
     const slots = document.querySelectorAll('.slot');
     
-    // Esto es un ejemplo simple: asignamos el primer slot que esté vacío
+    // Buscamos el primer slot que todavía tenga el nombre original (ej: "Armadura")
     for (let slot of slots) {
-        // Comparamos si el texto del slot es igual al data-tipo original
+        // Si el slot dice lo mismo que su data-tipo, significa que está vacío
         if (slot.innerText.toLowerCase() === slot.getAttribute('data-tipo').toLowerCase()) {
             slot.innerText = item.nombre;
-            slot.style.border = "2px solid #00e676"; // Cambia el borde a verde al equipar
-            break; // Salimos del bucle para no llenar todos los slots
+            slot.style.border = "2px solid #00e676";
+            
+            // Aquí activamos la apertura del modal que creamos antes
+            slot.onclick = () => abrirModal(item);
+            
+            console.log("Ítem equipado en slot:", slot.getAttribute('data-tipo'));
+            return; // Salimos de la función al equipar
         }
     }
+    alert("No hay slots disponibles de ese tipo!");
 }
 // Iniciamos
 cargarDatos();
