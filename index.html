@@ -8,10 +8,7 @@
 <body>
     <header><h1>⚔️ Build Planner - Battle For Embolia 🛡️</h1></header>
     <div class="main-layout">
-        <aside class="col-habilidades">
-            <h2>Habilidades</h2>
-            <div id="lista-habilidades"></div>
-        </aside>
+        <aside class="col-habilidades"><h2>Habilidades</h2><div id="lista-habilidades"></div></aside>
         <main class="col-equipamiento">
             <h2>Equipamiento</h2>
             <div class="layout-personaje">
@@ -20,10 +17,7 @@
                 <div class="columna-slots"><div class="slot" data-tipo="arma" onclick="abrirModalParaSeleccion('arma')">Arma</div></div>
             </div>
         </main>
-        <aside class="col-estadisticas">
-            <h2>Estadísticas</h2>
-            <div id="lista-estadisticas"></div>
-        </aside>
+        <aside class="col-estadisticas"><h2>Estadísticas</h2><div id="lista-estadisticas"></div></aside>
     </div>
 
     <div id="modal-planner" class="modal">
@@ -43,14 +37,15 @@
                 <input type="text" id="busqueda-modal" placeholder="Filtrar por nombre..." oninput="filtrarModal(this.value)">
                 <div id="lista-modal" class="lista-items-modal"></div>
             </div>
+            
             <div id="seccion-edicion" style="display:none;">
                 <div class="tooltip-layout-final">
                     <div class="col-izq">
                         <div id="item-preview-img" class="item-img-box">?</div>
                         <div class="controles-form">
-                            <div class="fila-control"><label>Nivel:</label><select id="select-nivel" onchange="actualizarInfo()"><option value="+0">+0</option><option value="+1">+1</option><option value="+2">+2</option><option value="+3">+3</option><option value="+4">+4</option><option value="+5">+5</option></select></div>
-                            <div class="fila-control"><label>Rareza:</label><select id="select-rareza" onchange="actualizarInfo()"><option value="normal" data-color="#ffffff">Normal</option><option value="magico" data-color="#007bff">Mágico</option><option value="raro" data-color="#ffff00">Raro</option><option value="epico" data-color="#ff00ff">Épico</option><option value="legendario" data-color="#ff8c00">Legendario</option></select></div>
-                            <div class="fila-control"><label>Grado:</label><select id="select-grado"><option value="D">D</option><option value="C">C</option><option value="B">B</option></select></div>
+                            <div class="fila-control"><label>Nivel:</label><select id="select-nivel"><option>+0</option><option>+1</option></select></div>
+                            <div class="fila-control"><label>Rareza:</label><select id="select-rareza"><option>Normal</option></select></div>
+                            <div class="fila-control"><label>Grado:</label><select id="select-grado"><option>D</option></select></div>
                             <div class="fila-control"><label>Poder:</label><input type="number" id="input-poder"></div>
                         </div>
                     </div>
@@ -58,13 +53,13 @@
                         <div class="bloque-stats">
                             <h3>Stats Base</h3>
                             <div id="lista-stats-base"></div>
-                            <div style="display:flex; gap:5px;"><select id="new-stat-tipo"><option value="Defensa">Defensa</option><option value="Evasion">Evasion</option></select><input type="number" id="new-stat-valor" style="width:50px;"><button onclick="agregarStatBase()">+</button></div>
+                            <div style="display:flex; gap:5px;"><select id="new-stat-tipo"></select><input type="number" id="new-stat-valor" style="width:50px;"><button onclick="agregarStatBase()">+</button></div>
                         </div>
                         <hr style="margin: 15px 0;">
                         <div class="bloque-mods">
                             <h3>Modificadores</h3>
                             <div id="lista-mods-agregados"></div>
-                            <div style="display: flex; gap: 5px; margin-top:5px;"><select id="select-mods"><option value="Critico">Critico</option><option value="Defensa">Defensa</option></select><input type="number" id="input-valor-mod" placeholder="Valor" style="width: 60px;"><button onclick="agregarModSeleccionado()">Agregar</button></div>
+                            <div style="display: flex; gap: 5px; margin-top:5px;"><select id="select-mods"></select><input type="number" id="input-valor-mod" placeholder="Valor" style="width: 60px;"><button onclick="agregarModSeleccionado()">Agregar</button></div>
                         </div>
                     </div>
                 </div>
@@ -72,6 +67,7 @@
             </div>
         </div>
     </div>
+    <script src="config.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
