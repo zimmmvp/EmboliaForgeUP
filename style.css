@@ -1,19 +1,349 @@
-body { background-color: #121214; color: #e1e1e6; font-family: sans-serif; margin: 0; padding: 20px; }
-h2 { color: #00e676; border-bottom: 2px solid #333; padding-bottom: 10px; font-size: 18px; }
-.main-layout { display: grid; grid-template-columns: 250px 1fr 300px; gap: 20px; max-width: 1400px; margin: 0 auto; }
-.col-habilidades, .col-equipamiento, .col-estadisticas { background: #202024; padding: 15px; border-radius: 8px; border: 1px solid #444; }
-.personaje-grid { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 20px; }
-.col-slots { display: flex; flex-direction: column; gap: 10px; }
-.slot { width: 60px; height: 60px; border: 2px solid #333; background: #1a1a1e; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 10px; color: #666; text-align: center; }
-.centro-personaje { width: 150px; height: 320px; background: #1a1a1e; display: flex; align-items: center; justify-content: center; border: 1px solid #444; }
+/* --- General --- */
+body { 
+    background-color: #121214; 
+    color: #e1e1e6; 
+    font-family: sans-serif; 
+    margin: 0; 
+    padding: 20px; 
+}
 
-.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); }
-.modal-contenido { background-color: #202024; margin: 5% auto; padding: 20px; border: 1px solid #444; border-radius: 8px; color: white; }
-.tooltip-layout-final { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; padding: 10px; }
-.item-preview-box { width: 120px; height: 120px; border: 3px solid #444; position: relative; background: #000; display: flex; align-items: center; justify-content: center; }
-.item-nivel-tag { position: absolute; bottom: 5px; right: 5px; background: rgba(0,0,0,0.7); color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; }
-.agregar-box { display: flex; gap: 5px; background: #2a2a30; padding: 8px; border-radius: 4px; margin-top: 5px; align-items: center; }
-.agregar-box select { flex: 1; padding: 4px; background: #333; color: white; border: 1px solid #555; }
-.agregar-box input { width: 50px; padding: 4px; background: #333; color: white; border: 1px solid #555; }
-.agregar-box button { padding: 4px 10px; background: #00e676; border: none; cursor: pointer; font-weight: bold; }
-.stat-linea { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #333; font-size: 14px; }
+h2 { 
+    color: #00e676; 
+    border-bottom: 2px solid #333; 
+    padding-bottom: 10px; 
+    font-size: 18px; 
+}
+
+.main-layout { 
+    display: grid; 
+    grid-template-columns: 250px 1fr 300px; 
+    gap: 20px; 
+    max-width: 1400px; 
+    margin: 0 auto; 
+}
+
+.col-habilidades, .col-equipamiento, .col-estadisticas { 
+    background: #202024; 
+    padding: 15px; 
+    border-radius: 8px; 
+    border: 1px solid #444; 
+}
+
+/* --- Equipamiento (Slots) --- */
+.personaje-grid { 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    gap: 15px; 
+    margin-top: 20px; 
+}
+
+.col-slots { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px; 
+}
+
+.slot { 
+    width: 80px; 
+    height: 60px; 
+    border: 2px solid #333; 
+    background: #1a1a1e; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    cursor: pointer; 
+    font-size: 11px; 
+    color: #666; 
+    text-align: center; 
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.slot:hover {
+    border-color: #00e676;
+    color: #fff;
+    box-shadow: 0 0 10px rgba(0, 230, 118, 0.2);
+}
+
+.centro-personaje { 
+    width: 150px; 
+    height: 340px; 
+    background: #1a1a1e; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    border: 1px solid #444; 
+    border-radius: 8px;
+    font-size: 40px;
+}
+
+/* --- Modal y Layout Interno --- */
+.modal { 
+    display: none; 
+    position: fixed; 
+    z-index: 1000; 
+    left: 0; 
+    top: 0; 
+    width: 100%; 
+    height: 100%; 
+    background-color: rgba(0,0,0,0.85); 
+}
+
+.modal-contenido { 
+    background-color: #202024; 
+    margin: 5% auto; 
+    padding: 20px; 
+    border: 1px solid #444; 
+    border-radius: 8px; 
+    color: white; 
+}
+
+.cerrar {
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+    color: #aaa;
+}
+
+.cerrar:hover {
+    color: #ff4d4d;
+}
+
+/* --- Grid de Edición del Item --- */
+.tooltip-layout-final { 
+    display: grid; 
+    grid-template-columns: 1fr 1.2fr; 
+    gap: 25px; 
+    padding: 10px; 
+}
+
+/* Centrado del panel izquierdo (Imagen y Selectores) */
+.col-izq {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    border-right: 1px solid #333;
+    padding-right: 20px;
+}
+
+.col-der {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Centrado de Títulos Stats Base y Modificadores */
+.bloque-stats h3, .bloque-mods h3 {
+    text-align: center;
+    color: #00e676;
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 16px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 5px;
+}
+
+/* Caja de Imagen */
+.item-preview-box { 
+    width: 120px; 
+    height: 120px; 
+    border: 3px solid #444; 
+    position: relative; 
+    background: #000; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    border-radius: 8px;
+    overflow: hidden;
+    transition: background-color 0.3s ease;
+}
+
+#placeholder-pregunta {
+    font-size: 48px;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.4);
+    user-select: none;
+}
+
+.item-nivel-tag { 
+    position: absolute; 
+    bottom: 5px; 
+    right: 5px; 
+    background: rgba(0,0,0,0.8); 
+    color: white; 
+    padding: 2px 6px; 
+    border-radius: 4px; 
+    font-size: 11px; 
+    font-weight: bold; 
+    border: 1px solid #555;
+}
+
+/* Controles de Formulario */
+.controles-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    max-width: 180px;
+}
+
+.fila-control {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+}
+
+.fila-control select, .fila-control input {
+    width: 100px;
+    padding: 4px;
+    background: #333;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* --- Caja para Agregar Stats --- */
+.agregar-box { 
+    display: flex; 
+    gap: 5px; 
+    background: #2a2a30; 
+    padding: 8px; 
+    border-radius: 4px; 
+    margin-top: 8px; 
+    align-items: center; 
+}
+
+.agregar-box select { 
+    flex: 1; 
+    padding: 4px; 
+    background: #333; 
+    color: white; 
+    border: 1px solid #555; 
+    border-radius: 4px;
+}
+
+.agregar-box input { 
+    width: 60px; 
+    padding: 4px; 
+    background: #333; 
+    color: white; 
+    border: 1px solid #555; 
+    border-radius: 4px;
+}
+
+.agregar-box button { 
+    padding: 4px 12px; 
+    background: #00e676; 
+    color: black;
+    border: none; 
+    cursor: pointer; 
+    font-weight: bold; 
+    border-radius: 4px;
+}
+
+/* --- Diseño Mejorado para los Items Agregados (Chips/Badges) --- */
+.stat-item { 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 6px 12px;
+    margin-bottom: 6px;
+    font-size: 13px;
+    transition: background 0.2s ease;
+}
+
+.stat-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: #555;
+}
+
+.stat-item strong {
+    color: #00e676;
+    margin-left: 4px;
+}
+
+/* Botón Eliminar Stats Individuales */
+.btn-eliminar-stat {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 2px 6px;
+    cursor: pointer;
+    line-height: 1.2;
+    transition: background 0.2s ease;
+}
+
+.btn-eliminar-stat:hover {
+    background-color: #d32f2f;
+}
+
+/* Listas Generales */
+.stat-linea { 
+    display: flex; 
+    justify-content: space-between; 
+    padding: 5px 0; 
+    border-bottom: 1px solid #333; 
+    font-size: 13px; 
+}
+
+.lista-items-modal {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 15px;
+}
+
+.item-card {
+    padding: 10px;
+    background: #2a2a30;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid #444;
+}
+
+.item-card:hover {
+    border-color: #00e676;
+    background: #32323b;
+}
+
+.filtros-rapidos {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.filtros-rapidos button {
+    background: #333;
+    color: white;
+    border: 1px solid #555;
+    padding: 5px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.filtros-rapidos button:hover {
+    background: #444;
+    border-color: #00e676;
+}
+
+#busqueda-modal {
+    width: 100%;
+    padding: 8px;
+    background: #333;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
