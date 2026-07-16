@@ -14,7 +14,7 @@ async function cargarDatos() {
     } catch (e) { console.error("Error al cargar datos"); }
 }
 
-function abrirModalParaSeleccion(tipo, slotId) {
+function abrirModalParaSeleccion() {
     document.getElementById('modal-planner').style.display = "block";
     const contenedor = document.getElementById('lista-modal');
     contenedor.innerHTML = '';
@@ -22,12 +22,16 @@ function abrirModalParaSeleccion(tipo, slotId) {
         const div = document.createElement('div');
         div.className = 'item-card';
         div.innerText = item.nombre;
-        div.onclick = () => { document.getElementById('seccion-edicion').style.display = "block"; document.getElementById('pantalla-seleccion').style.display = "none"; };
+        div.onclick = () => {
+            document.getElementById('modal-titulo').innerText = "Editar: " + item.nombre;
+            document.getElementById('pantalla-seleccion').style.display = "none";
+            document.getElementById('seccion-edicion').style.display = "block";
+        };
         contenedor.appendChild(div);
     });
 }
 
-function cerrarModal() { 
+function cerrarModal() {
     document.getElementById('modal-planner').style.display = "none";
     document.getElementById('pantalla-seleccion').style.display = "block";
     document.getElementById('seccion-edicion').style.display = "none";
