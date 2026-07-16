@@ -18,8 +18,9 @@ function inicializarSelectores() {
 
 function actualizarVisual() {
     const rareza = document.getElementById('select-rareza').value;
+    const nivel = document.getElementById('select-nivel').value;
     document.getElementById('item-preview-box').style.backgroundColor = coloresRareza[rareza];
-    document.getElementById('item-nivel-tag').innerText = document.getElementById('select-nivel').value;
+    document.getElementById('item-nivel-tag').innerText = nivel;
 }
 
 function renderizarStats(containerId, lista, funcName) {
