@@ -1,5 +1,6 @@
 let listaItems = [];
-let tipoSeleccionado = 'todo';
+let slotActual = "";
+let equipoPersonaje = {};
 
 function cargarEstadisticas() {
     const contenedor = document.getElementById('lista-estadisticas');
@@ -13,29 +14,19 @@ function cargarEstadisticas() {
 
 function inicializarSelectores() {
     const selects = [document.getElementById('new-stat-tipo'), document.getElementById('select-mods')];
-    selects.forEach(select => {
-        LISTA_STATS.forEach(stat => {
-            const option = document.createElement('option');
-            option.value = stat; option.text = stat;
-            select.appendChild(option);
-        });
-    });
-    const niveles = ["+0", "+1", "+2", "+3", "+4", "+5"];
-    const rarezas = ["Normal", "Mágico", "Raro", "Épico", "Legendario"];
-    const grados = ["D", "C", "B", "A", "S"];
-    niveles.forEach(n => document.getElementById('select-nivel').innerHTML += `<option>${n}</option>`);
-    rarezas.forEach(r => document.getElementById('select-rareza').innerHTML += `<option>${r}</option>`);
-    grados.forEach(g => document.getElementById('select-grado').innerHTML += `<option>${g}</option>`);
+    selects.forEach(s => LISTA_STATS.forEach(stat => s.innerHTML += `<option>${stat}</option>`));
+    ["+0", "+1", "+2", "+3", "+4", "+5"].forEach(n => document.getElementById('select-nivel').innerHTML += `<option>${n}</option>`);
+    ["Normal", "Mágico", "Raro", "Épico", "Legendario"].forEach(r => document.getElementById('select-rareza').innerHTML += `<option>${r}</option>`);
+    ["D", "C", "B", "A", "S"].forEach(g => document.getElementById('select-grado').innerHTML += `<option>${g}</option>`);
 }
 
 function actualizarVisual() {
     const rareza = document.getElementById('select-rareza').value;
-    const nivel = document.getElementById('select-nivel').value;
     const box = document.getElementById('item-preview-box');
     const tag = document.getElementById('item-nivel-tag');
     const colores = { "Normal": "#ffffff", "Mágico": "#007bff", "Raro": "#28a745", "Épico": "#ff00ff", "Legendario": "#ff8c00" };
     box.style.backgroundColor = colores[rareza] || "#ffffff";
-    tag.innerText = nivel;
+    tag.innerText = document.getElementById('select-nivel').value;
 }
 
 function agregarStatBase() {
@@ -43,10 +34,9 @@ function agregarStatBase() {
     const valor = document.getElementById('new-stat-valor').value;
     if(valor) {
         const div = document.createElement('div');
-        div.className = 'stat-item';
-        div.innerText = tipo + ": " + valor;
+        div.className = 'stat-chip';
+        div.innerHTML = `${tipo}: ${valor} <button onclick="this.parentElement.remove()">x</button>`;
         document.getElementById('lista-stats-base').appendChild(div);
-        document.getElementById('new-stat-valor').value = '';
     }
 }
 
@@ -55,20 +45,34 @@ function agregarModSeleccionado() {
     const valor = document.getElementById('input-valor-mod').value;
     if(valor) {
         const div = document.createElement('div');
-        div.className = 'stat-item';
-        div.innerText = mod + ": " + valor;
+        div.className = 'stat-chip';
+        div.innerHTML = `${mod}: ${valor} <button onclick="this.parentElement.remove()">x</button>`;
         document.getElementById('lista-mods-agregados').appendChild(div);
-        document.getElementById('input-valor-mod').value = '';
     }
 }
 
-async function cargarDatos() { try { const res = await fetch('data/item.txt'); const texto = await res.text(); texto.split('\n').forEach(linea => { if (linea.includes('item_name_')) { const [llave, valor] = linea.split('=>'); listaItems.push({ id: llave.split('item_name_')[1].trim(), nombre: valor.trim() }); } }); } catch (e) { console.error("Error"); } }
+function abrirModalParaSeleccion(tipo, slotId) {
+    slotActual = slotId;
+    document.getElementById('modal-planner').style.display = "block";
+    document.getElementById('pantalla-seleccion').style.display = "block";
+    document.getElementById('seccion-edicion').style.display = "none";
+}
 
-function abrirModalParaSeleccion(tipo) { document.getElementById('modal-planner').style.display = "block"; document.getElementById('seccion-edicion').style.display = "none"; document.getElementById('pantalla-seleccion').style.display = "block"; const contenedor = document.getElementById('lista-modal'); contenedor.innerHTML = ''; listaItems.forEach(item => { const div = document.createElement('div'); div.className = 'item-card'; div.innerText = item.nombre; div.onclick = () => activarEdicion(item); contenedor.appendChild(div); }); }
+function activarEdicion(item) {
+    document.getElementById('modal-titulo').innerText = "Editar: " + item.nombre;
+    document.getElementById('pantalla-seleccion').style.display = "none";
+    document.getElementById('seccion-edicion').style.display = "block";
+    document.getElementById('lista-stats-base').innerHTML = '';
+    document.getElementById('lista-mods-agregados').innerHTML = '';
+    actualizarVisual();
+}
 
-function activarEdicion(item) { document.getElementById('modal-titulo').innerText = "Editar: " + item.nombre; document.getElementById('pantalla-seleccion').style.display = "none"; document.getElementById('seccion-edicion').style.display = "block"; actualizarVisual(); }
+function guardarYEquipar() {
+    equipoPersonaje[slotActual] = { nombre: document.getElementById('modal-titulo').innerText };
+    cerrarModal();
+}
+
 function cerrarModal() { document.getElementById('modal-planner').style.display = "none"; }
 
-cargarDatos();
 cargarEstadisticas();
 inicializarSelectores();
