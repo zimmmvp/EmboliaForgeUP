@@ -1,5 +1,5 @@
 const MAPEO_IMAGENES = {
-    "1": "", // Espada Chota
+    "1": "1-sharedassets1.assets-593.png", // Espada Chota
     "2": "", // Armadura Pesada de Ciruja
     "3": "", // Guantes de Ciruja
     "4": "", // Botas de Ciruja
