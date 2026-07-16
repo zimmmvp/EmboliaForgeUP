@@ -1,10 +1,18 @@
-let listaItems = [], slotActual = '', itemActual = null, equipoPersonaje = {}, tempStatsBase = [], tempMods = [];
+let listaItems = [];
+let slotActual = '';
+let itemActual = null;
+let equipoPersonaje = {};
+let tempStatsBase = [];
+let tempMods = [];
 const coloresRareza = { "Normal": "#ffffff", "Mágico": "#007bff", "Raro": "#28a745", "Épico": "#ff00ff", "Legendario": "#ff8c00" };
 
 function cargarEstadisticas() {
     const contenedor = document.getElementById('lista-estadisticas');
     LISTA_STATS.forEach(stat => {
-        contenedor.innerHTML += `<div class="stat-linea"><span>${stat}:</span> <span id="stat-${stat.replace(/ /g, '-')}">0</span></div>`;
+        const div = document.createElement('div');
+        div.className = 'stat-linea';
+        div.innerHTML = `<span>${stat}:</span> <span id="stat-${stat.replace(/ /g, '-')}">0</span>`;
+        contenedor.appendChild(div);
     });
 }
 
@@ -18,8 +26,9 @@ function inicializarSelectores() {
 
 function actualizarVisual() {
     const rareza = document.getElementById('select-rareza').value;
+    const nivel = document.getElementById('select-nivel').value;
     document.getElementById('item-preview-box').style.backgroundColor = coloresRareza[rareza];
-    document.getElementById('item-nivel-tag').innerText = document.getElementById('select-nivel').value;
+    document.getElementById('item-nivel-tag').innerText = nivel;
 }
 
 function renderizarStats(containerId, lista, funcName) {
@@ -70,9 +79,13 @@ function activarEdicion(item) {
 }
 
 function resetearItemActual() {
-    document.getElementById('select-nivel').value = "+0"; document.getElementById('select-rareza').value = "Normal"; document.getElementById('select-grado').value = "D"; document.getElementById('input-poder').value = "";
+    document.getElementById('select-nivel').value = "+0"; 
+    document.getElementById('select-rareza').value = "Normal"; 
+    document.getElementById('select-grado').value = "D"; 
+    document.getElementById('input-poder').value = "";
     tempStatsBase = []; tempMods = [];
-    renderizarStats('lista-stats-base', tempStatsBase, 'eliminarStatBase'); renderizarStats('lista-mods-agregados', tempMods, 'eliminarMod');
+    renderizarStats('lista-stats-base', tempStatsBase, 'eliminarStatBase'); 
+    renderizarStats('lista-mods-agregados', tempMods, 'eliminarMod');
     actualizarVisual();
 }
 
