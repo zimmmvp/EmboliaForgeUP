@@ -37,6 +37,7 @@
         </aside>
     </div>
 
+    <!-- MODAL -->
     <div id="modal-planner" class="modal">
         <div class="modal-contenido" style="width: 750px;">
             <span class="cerrar" onclick="cerrarModal()">&times;</span>
@@ -46,6 +47,7 @@
                 <div class="filtros-rapidos">
                     <button onclick="filtrarPorTipo('todo')">Todo</button>
                     <button onclick="filtrarPorTipo('arma')">Armas</button>
+                    <button onclick="filtrarPorTipo('espada')">Espadas</button>
                 </div>
                 <input type="text" id="busqueda-modal" placeholder="Filtrar por nombre..." oninput="filtrarModal(this.value)">
                 <div id="lista-modal" class="lista-items-modal"></div>
@@ -57,9 +59,11 @@
                         <div id="item-preview-box" class="item-preview-box">
                             <div id="item-nivel-tag" class="item-nivel-tag">+0</div>
                         </div>
-                        <div class="controles-form">
+                        <div class="form-row">
                             <label>Nivel:</label><select id="select-nivel" onchange="actualizarVisual()"></select>
                             <label>Rareza:</label><select id="select-rareza" onchange="actualizarVisual()"></select>
+                        </div>
+                        <div class="form-row">
                             <label>Grado:</label><select id="select-grado"></select>
                             <label>Poder:</label><input type="number" id="input-poder">
                         </div>
@@ -68,12 +72,16 @@
                         <h3>Stats Base</h3>
                         <div id="lista-stats-base"></div>
                         <div class="agregar-box">
-                            <select id="new-stat-tipo"></select><input type="number" id="new-stat-valor" placeholder="Val"><button onclick="agregarStatBase()">+</button>
+                            <select id="new-stat-tipo"></select>
+                            <input type="number" id="new-stat-valor" placeholder="Val">
+                            <button onclick="agregarStatBase()">+</button>
                         </div>
                         <h3>Modificadores</h3>
                         <div id="lista-mods-agregados"></div>
                         <div class="agregar-box">
-                            <select id="select-mods"></select><input type="number" id="input-valor-mod" placeholder="Val"><button onclick="agregarModSeleccionado()">+</button>
+                            <select id="select-mods"></select>
+                            <input type="number" id="input-valor-mod" placeholder="Val">
+                            <button onclick="agregarModSeleccionado()">+</button>
                         </div>
                     </div>
                 </div>
