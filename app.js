@@ -1,18 +1,10 @@
-let listaItems = [];
-let slotActual = '';
-let itemActual = null;
-let equipoPersonaje = {};
-let tempStatsBase = [];
-let tempMods = [];
+let listaItems = [], slotActual = '', itemActual = null, equipoPersonaje = {}, tempStatsBase = [], tempMods = [];
 const coloresRareza = { "Normal": "#ffffff", "Mágico": "#007bff", "Raro": "#28a745", "Épico": "#ff00ff", "Legendario": "#ff8c00" };
 
 function cargarEstadisticas() {
     const contenedor = document.getElementById('lista-estadisticas');
     LISTA_STATS.forEach(stat => {
-        const div = document.createElement('div');
-        div.className = 'stat-linea';
-        div.innerHTML = `<span>${stat}:</span> <span id="stat-${stat.replace(/ /g, '-')}">0</span>`;
-        contenedor.appendChild(div);
+        contenedor.innerHTML += `<div class="stat-linea"><span>${stat}:</span> <span id="stat-${stat.replace(/ /g, '-')}">0</span></div>`;
     });
 }
 
@@ -26,9 +18,8 @@ function inicializarSelectores() {
 
 function actualizarVisual() {
     const rareza = document.getElementById('select-rareza').value;
-    const nivel = document.getElementById('select-nivel').value;
     document.getElementById('item-preview-box').style.backgroundColor = coloresRareza[rareza];
-    document.getElementById('item-nivel-tag').innerText = nivel;
+    document.getElementById('item-nivel-tag').innerText = document.getElementById('select-nivel').value;
 }
 
 function renderizarStats(containerId, lista, funcName) {
@@ -79,13 +70,9 @@ function activarEdicion(item) {
 }
 
 function resetearItemActual() {
-    document.getElementById('select-nivel').value = "+0";
-    document.getElementById('select-rareza').value = "Normal";
-    document.getElementById('select-grado').value = "D";
-    document.getElementById('input-poder').value = "";
+    document.getElementById('select-nivel').value = "+0"; document.getElementById('select-rareza').value = "Normal"; document.getElementById('select-grado').value = "D"; document.getElementById('input-poder').value = "";
     tempStatsBase = []; tempMods = [];
-    renderizarStats('lista-stats-base', tempStatsBase, 'eliminarStatBase');
-    renderizarStats('lista-mods-agregados', tempMods, 'eliminarMod');
+    renderizarStats('lista-stats-base', tempStatsBase, 'eliminarStatBase'); renderizarStats('lista-mods-agregados', tempMods, 'eliminarMod');
     actualizarVisual();
 }
 
@@ -95,8 +82,7 @@ function guardarYEquipar() {
     const info = equipoPersonaje[slotActual];
     el.style.borderColor = coloresRareza[info.rareza];
     el.innerHTML = `<div style="height:100%; display:flex; flex-direction:column; justify-content:space-between; padding:4px;"><div style="font-size:9px; font-weight:bold;">${info.nombre}</div><div style="text-align:right; font-size:10px; font-weight:bold; color:${coloresRareza[info.rareza]}">${info.nivel}</div></div>`;
-    actualizarEstadisticasGlobales();
-    cerrarModal();
+    actualizarEstadisticasGlobales(); cerrarModal();
 }
 
 function actualizarEstadisticasGlobales() {
