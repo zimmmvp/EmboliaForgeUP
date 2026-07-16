@@ -20,11 +20,9 @@ function inicializarSelectores() {
             select.appendChild(option);
         });
     });
-
     const niveles = ["+0", "+1", "+2", "+3", "+4", "+5"];
     const rarezas = ["Normal", "Mágico", "Raro", "Épico", "Legendario"];
-    const grados = ["D", "C", "B", "A", "S"];
-
+    const grados = ["D", "C", "B", "A"];
     niveles.forEach(n => document.getElementById('select-nivel').innerHTML += `<option>${n}</option>`);
     rarezas.forEach(r => document.getElementById('select-rareza').innerHTML += `<option>${r}</option>`);
     grados.forEach(g => document.getElementById('select-grado').innerHTML += `<option>${g}</option>`);
@@ -57,6 +55,9 @@ function agregarModSeleccionado() {
 async function cargarDatos() { try { const res = await fetch('data/item.txt'); const texto = await res.text(); texto.split('\n').forEach(linea => { if (linea.includes('item_name_')) { const [llave, valor] = linea.split('=>'); listaItems.push({ id: llave.split('item_name_')[1].trim(), nombre: valor.trim() }); } }); } catch (e) { console.error("Error"); } }
 
 function abrirModalParaSeleccion(tipo) { document.getElementById('modal-planner').style.display = "block"; document.getElementById('seccion-edicion').style.display = "none"; document.getElementById('pantalla-seleccion').style.display = "block"; const contenedor = document.getElementById('lista-modal'); contenedor.innerHTML = ''; listaItems.forEach(item => { const div = document.createElement('div'); div.className = 'item-card'; div.innerText = item.nombre; div.onclick = () => activarEdicion(item); contenedor.appendChild(div); }); }
+
+function filtrarPorTipo(tipo) { tipoSeleccionado = tipo; filtrarModal(document.getElementById('busqueda-modal').value); }
+function filtrarModal(texto) { const busqueda = texto.toLowerCase(); const items = document.getElementsByClassName('item-card'); for (let item of items) { const nombre = item.innerText.toLowerCase(); const coincideNombre = nombre.includes(busqueda); const coincideTipo = (tipoSeleccionado === 'todo' || nombre.includes(tipoSeleccionado)); item.style.display = (coincideNombre && coincideTipo) ? "" : "none"; } }
 
 function activarEdicion(item) { document.getElementById('modal-titulo').innerText = "Editar: " + item.nombre; document.getElementById('pantalla-seleccion').style.display = "none"; document.getElementById('seccion-edicion').style.display = "block"; }
 function cerrarModal() { document.getElementById('modal-planner').style.display = "none"; }
