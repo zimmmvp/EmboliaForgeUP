@@ -9,7 +9,6 @@
     <header><h1>⚔️ Build Planner - Battle For Embolia 🛡️</h1></header>
     <div class="main-layout">
         <aside class="col-habilidades"><h2>Habilidades</h2><div id="lista-habilidades"></div></aside>
-        
         <main class="col-equipamiento">
             <h2>Equipamiento</h2>
             <div class="personaje-grid">
@@ -30,7 +29,6 @@
                 </div>
             </div>
         </main>
-        
         <aside class="col-estadisticas">
             <h2>Estadísticas</h2>
             <div id="lista-estadisticas"></div>
@@ -42,15 +40,9 @@
             <span class="cerrar" onclick="cerrarModal()">&times;</span>
             <h2 id="modal-titulo">Editar Ítem</h2>
             <div id="pantalla-seleccion">
-                <div class="filtros-rapidos">
-                    <button onclick="filtrarPorTipo('todo')">Todo</button>
-                    <button onclick="filtrarPorTipo('arma')">Armas</button>
-                    <button onclick="filtrarPorTipo('espada')">Espadas</button>
-                </div>
                 <input type="text" id="busqueda-modal" placeholder="Filtrar por nombre..." oninput="filtrarModal(this.value)">
                 <div id="lista-modal" class="lista-items-modal"></div>
             </div>
-            
             <div id="seccion-edicion" style="display:none;">
                 <div class="tooltip-layout-final">
                     <div class="col-izq">
@@ -60,31 +52,19 @@
                             <div id="item-nivel-tag" class="item-nivel-tag">+0</div>
                         </div>
                         <div class="controles-form">
-                            <div class="fila-control"><label>Nivel:</label><select id="select-nivel" onchange="actualizarVisual()"></select></div>
-                            <div class="fila-control"><label>Rareza:</label><select id="select-rareza" onchange="actualizarVisual()"></select></div>
-                            <div class="fila-control"><label>Grado:</label><select id="select-grado"></select></div>
-                            <div class="fila-control"><label>Poder:</label><input type="number" id="input-poder"></div>
+                            <label>Nivel:</label><select id="select-nivel" onchange="actualizarVisual()"></select>
+                            <label>Rareza:</label><select id="select-rareza" onchange="actualizarVisual()"></select>
+                            <label>Grado:</label><select id="select-grado"></select>
+                            <label>Poder:</label><input type="number" id="input-poder">
                         </div>
                     </div>
                     <div class="col-der">
-                        <div class="bloque-stats">
-                            <h3>Stats Base</h3>
-                            <div id="lista-stats-base"></div>
-                            <div class="agregar-box">
-                                <select id="new-stat-tipo"></select>
-                                <input type="number" id="new-stat-valor" placeholder="Cant.">
-                                <button onclick="agregarStatBase()">+</button>
-                            </div>
-                        </div>
-                        <div class="bloque-mods">
-                            <h3>Modificadores</h3>
-                            <div id="lista-mods-agregados"></div>
-                            <div class="agregar-box">
-                                <select id="select-mods"></select>
-                                <input type="number" id="input-valor-mod" placeholder="Val">
-                                <button onclick="agregarModSeleccionado()">+</button>
-                            </div>
-                        </div>
+                        <h3>Stats Base</h3>
+                        <div id="lista-stats-base"></div>
+                        <div class="agregar-box"><select id="new-stat-tipo"></select><input type="number" id="new-stat-valor" placeholder="Val"><button onclick="agregarStatBase()">+</button></div>
+                        <h3>Modificadores</h3>
+                        <div id="lista-mods-agregados"></div>
+                        <div class="agregar-box"><select id="select-mods"></select><input type="number" id="input-valor-mod" placeholder="Val"><button onclick="agregarModSeleccionado()">+</button></div>
                     </div>
                 </div>
                 <button onclick="guardarYEquipar()" style="width: 100%; margin-top: 20px; padding: 10px; background: #00e676; border: none; cursor: pointer; font-weight: bold; border-radius: 4px;">Guardar y Equipar</button>
