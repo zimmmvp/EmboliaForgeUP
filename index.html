@@ -9,6 +9,7 @@
     <header><h1>⚔️ Build Planner - Battle For Embolia 🛡️</h1></header>
     <div class="main-layout">
         <aside class="col-habilidades"><h2>Habilidades</h2></aside>
+        
         <main class="col-equipamiento">
             <h2>Equipamiento</h2>
             <div class="personaje-grid">
@@ -29,9 +30,11 @@
                 </div>
             </div>
         </main>
+        
         <aside class="col-estadisticas"><h2>Estadísticas</h2></aside>
     </div>
 
+    <!-- Modal -->
     <div id="modal-planner" class="modal">
         <div class="modal-contenido">
             <span class="cerrar" onclick="cerrarModal()">&times;</span>
@@ -41,15 +44,7 @@
                 <div id="lista-modal" class="lista-items-modal"></div>
             </div>
             <div id="seccion-edicion" style="display:none;">
-                <div class="modal-grid">
-                    <div class="controles-form">
-                        <label>Nivel:</label><select id="select-nivel"></select>
-                        <label>Rareza:</label><select id="select-rareza"></select>
-                        <label>Grado:</label><select id="select-grado"></select>
-                        <label>Poder:</label><input type="number" id="input-poder">
-                    </div>
-                </div>
-                <button onclick="cerrarModal()" style="margin-top:20px; width:100%;">Guardar y Cerrar</button>
+                <button onclick="cerrarModal()">Guardar</button>
             </div>
         </div>
     </div>
