@@ -32,13 +32,12 @@
         <aside class="col-estadisticas"><h2>Estadísticas</h2><div id="lista-estadisticas"></div></aside>
     </div>
 
-    <!-- EL MODAL DEBE ESTAR AQUÍ, FUERA DEL MAIN-LAYOUT -->
+    <!-- MODAL -->
     <div id="modal-planner" class="modal">
         <div class="modal-contenido">
             <span class="cerrar" onclick="cerrarModal()">&times;</span>
             <h2 id="modal-titulo">Editar Ítem</h2>
             <div id="pantalla-seleccion">
-                <div class="filtros-rapidos"><button onclick="filtrarPorTipo('todo')">Todo</button></div>
                 <input type="text" id="busqueda-modal" placeholder="Filtrar..." oninput="filtrarModal(this.value)">
                 <div id="lista-modal" class="lista-items-modal"></div>
             </div>
@@ -47,10 +46,10 @@
                     <div class="col-center">
                         <div id="item-preview-box" class="item-preview-box"><img id="item-preview-img" src="" alt=""><div id="item-nivel-tag" class="item-nivel-tag">+0</div></div>
                         <div class="controles-form">
-                            <div class="fila-control"><label>Nivel:</label><select id="select-nivel" onchange="actualizarVisual()"></select></div>
-                            <div class="fila-control"><label>Rareza:</label><select id="select-rareza" onchange="actualizarVisual()"></select></div>
-                            <div class="fila-control"><label>Grado:</label><select id="select-grado"></select></div>
-                            <div class="fila-control"><label>Poder:</label><input type="number" id="input-poder" style="width: 60px;"></div>
+                            <select id="select-nivel" onchange="actualizarVisual()"></select>
+                            <select id="select-rareza" onchange="actualizarVisual()"></select>
+                            <select id="select-grado"></select>
+                            <input type="number" id="input-poder" placeholder="Poder">
                         </div>
                     </div>
                     <div class="col-stats">
@@ -62,7 +61,6 @@
             </div>
         </div>
     </div>
-
     <script src="config.js"></script>
     <script src="app.js"></script>
 </body>
