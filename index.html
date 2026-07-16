@@ -9,7 +9,6 @@
     <header><h1>⚔️ Build Planner - Battle For Embolia 🛡️</h1></header>
     <div class="main-layout">
         <aside class="col-habilidades"><h2>Habilidades</h2><div id="lista-habilidades"></div></aside>
-        
         <main class="col-equipamiento">
             <h2>Equipamiento</h2>
             <div class="personaje-grid">
@@ -20,7 +19,7 @@
                     <div class="slot" id="slot-arma" onclick="abrirModalParaSeleccion('arma')">Arma</div>
                     <div class="slot" id="slot-pico" onclick="abrirModalParaSeleccion('pico')">Pico</div>
                 </div>
-                <div class="centro-personaje"><div class="imagen-personaje">👤</div></div>
+                <div class="centro-personaje">👤</div>
                 <div class="col-slots">
                     <div class="slot" id="slot-collar" onclick="abrirModalParaSeleccion('collar')">Collar</div>
                     <div class="slot" id="slot-anillo" onclick="abrirModalParaSeleccion('anillo')">Anillo</div>
@@ -30,59 +29,44 @@
                 </div>
             </div>
         </main>
-        
-        <aside class="col-estadisticas">
-            <h2>Estadísticas</h2>
-            <div id="lista-estadisticas"></div>
-        </aside>
+        <aside class="col-estadisticas"><h2>Estadísticas</h2><div id="lista-estadisticas"></div></aside>
     </div>
 
     <div id="modal-planner" class="modal">
-        <div class="modal-contenido" style="width: 750px;">
+        <div class="modal-contenido">
             <span class="cerrar" onclick="cerrarModal()">&times;</span>
             <h2 id="modal-titulo">Editar Ítem</h2>
-            
             <div id="pantalla-seleccion">
                 <div class="filtros-rapidos">
                     <button onclick="filtrarPorTipo('todo')">Todo</button>
                     <button onclick="filtrarPorTipo('arma')">Armas</button>
-                    <button onclick="filtrarPorTipo('espada')">Espadas</button>
                 </div>
-                <input type="text" id="busqueda-modal" placeholder="Filtrar por nombre..." oninput="filtrarModal(this.value)">
+                <input type="text" id="busqueda-modal" placeholder="Filtrar..." oninput="filtrarModal(this.value)">
                 <div id="lista-modal" class="lista-items-modal"></div>
             </div>
-            
             <div id="seccion-edicion" style="display:none;">
                 <div class="tooltip-layout-final">
                     <div class="col-izq">
-                        <div id="item-preview-box" class="item-preview-box">
-                            <span id="placeholder-pregunta">?</span>
-                            <div id="item-nivel-tag" class="item-nivel-tag">+0</div>
-                        </div>
-                        <div class="controles-form">
-                            <label>Nivel:</label><select id="select-nivel" onchange="actualizarVisual()"></select>
-                            <label>Rareza:</label><select id="select-rareza" onchange="actualizarVisual()"></select>
-                            <label>Grado:</label><select id="select-grado"></select>
-                            <label>Poder:</label><input type="number" id="input-poder">
-                        </div>
+                        <div id="item-preview-box" class="item-preview-box"><div id="item-nivel-tag" class="item-nivel-tag">+0</div></div>
+                        <label>Nivel:</label><select id="select-nivel" onchange="actualizarVisual()"></select>
+                        <label>Rareza:</label><select id="select-rareza" onchange="actualizarVisual()"></select>
+                        <label>Grado:</label><select id="select-grado"></select>
+                        <label>Poder:</label><input type="number" id="input-poder">
                     </div>
                     <div class="col-der">
-                        <h3>Stats Base</h3>
-                        <div id="lista-stats-base"></div>
-                        <div class="agregar-box"><select id="new-stat-tipo"></select><input type="number" id="new-stat-valor" placeholder="Val"><button onclick="agregarStatBase()">+</button></div>
-                        <h3>Modificadores</h3>
-                        <div id="lista-mods-agregados"></div>
-                        <div class="agregar-box"><select id="select-mods"></select><input type="number" id="input-valor-mod" placeholder="Val"><button onclick="agregarModSeleccionado()">+</button></div>
+                        <h3>Stats Base</h3><div id="lista-stats-base"></div>
+                        <div class="agregar-box"><select id="new-stat-tipo"></select><input type="number" id="new-stat-valor"><button onclick="agregarStatBase()">+</button></div>
+                        <h3>Modificadores</h3><div id="lista-mods-agregados"></div>
+                        <div class="agregar-box"><select id="select-mods"></select><input type="number" id="input-valor-mod"><button onclick="agregarModSeleccionado()">+</button></div>
                     </div>
                 </div>
-                <div style="display: flex; gap: 10px; margin-top: 20px;">
-                    <button onclick="resetearItemActual()" style="flex: 1; padding: 10px; background-color: #ff4d4d; color: white; border: none; cursor: pointer; font-weight: bold; border-radius: 4px;">Reset</button>
-                    <button onclick="guardarYEquipar()" style="flex: 1; padding: 10px; background-color: #00e676; color: black; border: none; cursor: pointer; font-weight: bold; border-radius: 4px;">Guardar y Equipar</button>
+                <div style="display:flex; gap:10px; margin-top:20px;">
+                    <button onclick="resetearItemActual()" style="flex:1; background:#ff4d4d; color:white; border:none; padding:10px; cursor:pointer;">Reset</button>
+                    <button onclick="guardarYEquipar()" style="flex:1; background:#00e676; border:none; padding:10px; cursor:pointer;">Guardar y Equipar</button>
                 </div>
             </div>
         </div>
     </div>
-    <script src="config.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
