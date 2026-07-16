@@ -14,7 +14,7 @@ async function cargarDatos() {
     } catch (e) { console.error("Error al cargar datos"); }
 }
 
-function abrirModalParaSeleccion() {
+function abrirModalParaSeleccion(slotId) {
     document.getElementById('modal-planner').style.display = "block";
     const contenedor = document.getElementById('lista-modal');
     contenedor.innerHTML = '';
@@ -22,8 +22,7 @@ function abrirModalParaSeleccion() {
         const div = document.createElement('div');
         div.className = 'item-card';
         div.innerText = item.nombre;
-        div.onclick = () => {
-            document.getElementById('modal-titulo').innerText = "Editar: " + item.nombre;
+        div.onclick = () => { 
             document.getElementById('pantalla-seleccion').style.display = "none";
             document.getElementById('seccion-edicion').style.display = "block";
         };
