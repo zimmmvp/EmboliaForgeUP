@@ -71,15 +71,15 @@ h2 {
     width: 150px; 
     height: 340px; 
     background: #1a1a1e; 
+    border: 1px solid #444; 
+    border-radius: 8px; 
     display: flex; 
     align-items: center; 
     justify-content: center; 
-    border: 1px solid #444; 
-    border-radius: 8px;
     font-size: 40px;
 }
 
-/* --- Modal y Layout Interno --- */
+/* --- Modal --- */
 .modal { 
     display: none; 
     position: fixed; 
@@ -95,9 +95,9 @@ h2 {
     background-color: #202024; 
     margin: 5% auto; 
     padding: 20px; 
-    border: 1px solid #444; 
+    width: 750px; 
     border-radius: 8px; 
-    color: white; 
+    border: 1px solid #444; 
 }
 
 .cerrar {
@@ -105,10 +105,6 @@ h2 {
     font-size: 24px;
     cursor: pointer;
     color: #aaa;
-}
-
-.cerrar:hover {
-    color: #ff4d4d;
 }
 
 /* --- Grid de Edición del Item --- */
@@ -119,35 +115,15 @@ h2 {
     padding: 10px; 
 }
 
-/* Centrado del panel izquierdo (Imagen y Selectores) */
 .col-izq {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
     gap: 20px;
     border-right: 1px solid #333;
     padding-right: 20px;
 }
 
-.col-der {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-/* Centrado de Títulos Stats Base y Modificadores */
-.bloque-stats h3, .bloque-mods h3 {
-    text-align: center;
-    color: #00e676;
-    margin-top: 0;
-    margin-bottom: 12px;
-    font-size: 16px;
-    border-bottom: 1px solid #333;
-    padding-bottom: 5px;
-}
-
-/* Caja de Imagen */
 .item-preview-box { 
     width: 120px; 
     height: 120px; 
@@ -158,15 +134,6 @@ h2 {
     align-items: center; 
     justify-content: center; 
     border-radius: 8px;
-    overflow: hidden;
-    transition: background-color 0.3s ease;
-}
-
-#placeholder-pregunta {
-    font-size: 48px;
-    font-weight: bold;
-    color: rgba(0, 0, 0, 0.4);
-    user-select: none;
 }
 
 .item-nivel-tag { 
@@ -179,171 +146,11 @@ h2 {
     border-radius: 4px; 
     font-size: 11px; 
     font-weight: bold; 
-    border: 1px solid #555;
 }
 
-/* Controles de Formulario */
-.controles-form {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-    max-width: 180px;
-}
-
-.fila-control {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 14px;
-}
-
-.fila-control select, .fila-control input {
-    width: 100px;
-    padding: 4px;
-    background: #333;
-    color: white;
-    border: 1px solid #555;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-/* --- Caja para Agregar Stats --- */
-.agregar-box { 
-    display: flex; 
-    gap: 5px; 
-    background: #2a2a30; 
-    padding: 8px; 
-    border-radius: 4px; 
-    margin-top: 8px; 
-    align-items: center; 
-}
-
-.agregar-box select { 
-    flex: 1; 
-    padding: 4px; 
-    background: #333; 
-    color: white; 
-    border: 1px solid #555; 
-    border-radius: 4px;
-}
-
-.agregar-box input { 
-    width: 60px; 
-    padding: 4px; 
-    background: #333; 
-    color: white; 
-    border: 1px solid #555; 
-    border-radius: 4px;
-}
-
-.agregar-box button { 
-    padding: 4px 12px; 
-    background: #00e676; 
-    color: black;
-    border: none; 
-    cursor: pointer; 
-    font-weight: bold; 
-    border-radius: 4px;
-}
-
-/* --- Diseño Mejorado para los Items Agregados (Chips/Badges) --- */
-.stat-item { 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid #444;
-    border-radius: 6px;
-    padding: 6px 12px;
-    margin-bottom: 6px;
-    font-size: 13px;
-    transition: background 0.2s ease;
-}
-
-.stat-item:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: #555;
-}
-
-.stat-item strong {
-    color: #00e676;
-    margin-left: 4px;
-}
-
-/* Botón Eliminar Stats Individuales */
-.btn-eliminar-stat {
-    background-color: #ff4d4d;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: bold;
-    padding: 2px 6px;
-    cursor: pointer;
-    line-height: 1.2;
-    transition: background 0.2s ease;
-}
-
-.btn-eliminar-stat:hover {
-    background-color: #d32f2f;
-}
-
-/* Listas Generales */
-.stat-linea { 
-    display: flex; 
-    justify-content: space-between; 
-    padding: 5px 0; 
-    border-bottom: 1px solid #333; 
-    font-size: 13px; 
-}
-
-.lista-items-modal {
-    max-height: 300px;
-    overflow-y: auto;
-    margin-top: 15px;
-}
-
-.item-card {
-    padding: 10px;
-    background: #2a2a30;
-    margin-bottom: 5px;
-    border-radius: 4px;
-    cursor: pointer;
-    border: 1px solid #444;
-}
-
-.item-card:hover {
-    border-color: #00e676;
-    background: #32323b;
-}
-
-.filtros-rapidos {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 10px;
-}
-
-.filtros-rapidos button {
-    background: #333;
-    color: white;
-    border: 1px solid #555;
-    padding: 5px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.filtros-rapidos button:hover {
-    background: #444;
-    border-color: #00e676;
-}
-
-#busqueda-modal {
-    width: 100%;
-    padding: 8px;
-    background: #333;
-    color: white;
-    border: 1px solid #555;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
+.controles-form { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 180px; }
+.stat-item { display: flex; justify-content: space-between; background: rgba(255,255,255,0.05); padding: 5px; margin-top: 5px; font-size: 12px; }
+.btn-eliminar-stat { background: #ff4d4d; border: none; color: white; cursor: pointer; }
+.stat-linea { display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 5px 0; font-size: 13px; }
+.item-card { padding: 10px; background: #2a2a30; margin-bottom: 5px; cursor: pointer; border: 1px solid #444; }
+.item-card:hover { border-color: #00e676; }
