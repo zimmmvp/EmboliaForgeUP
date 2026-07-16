@@ -70,15 +70,6 @@ function abrirModalParaSeleccion(tipo, slotId) {
     document.getElementById('modal-planner').style.display = "block";
     document.getElementById('pantalla-seleccion').style.display = "block";
     document.getElementById('seccion-edicion').style.display = "none";
-    const contenedor = document.getElementById('lista-modal');
-    contenedor.innerHTML = '';
-    listaItems.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'item-card';
-        div.innerText = item.nombre;
-        div.onclick = () => activarEdicion(item);
-        contenedor.appendChild(div);
-    });
 }
 
 function activarEdicion(item) {
