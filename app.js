@@ -67,13 +67,31 @@ function activarEdicion(item) {
     document.getElementById('select-grado').value = guardado.grado;
     document.getElementById('input-poder').value = guardado.poder;
     tempStatsBase = [...guardado.statsBase]; tempMods = [...guardado.modificadores];
-    actualizarVisual(); renderizarStats('lista-stats-base', tempStatsBase, 'eliminarStatBase'); renderizarStats('lista-mods-agregados', tempMods, 'eliminarMod');
+    actualizarVisual(); 
+    renderizarStats('lista-stats-base', tempStatsBase, 'eliminarStatBase'); 
+    renderizarStats('lista-mods-agregados', tempMods, 'eliminarMod');
+    mostrarImagenDelItem(item);
+}
+
+function mostrarImagenDelItem(item) {
+    const box = document.getElementById('item-preview-box');
+    const nombreArchivo = typeof MAPEO_IMAGENES !== 'undefined' ? MAPEO_IMAGENES[item.id] : null;
+    if (nombreArchivo) {
+        box.style.backgroundImage = `url('img/${nombreArchivo}')`;
+        box.style.backgroundSize = "contain";
+        box.style.backgroundRepeat = "no-repeat";
+        box.style.backgroundPosition = "center";
+        document.getElementById('item-nivel-tag').style.zIndex = "1";
+    } else {
+        box.style.backgroundImage = "none";
+    }
 }
 
 function desequiparItem() {
     delete equipoPersonaje[slotActual];
     const el = document.getElementById('slot-' + slotActual);
-    el.style.borderColor = "#333"; el.innerText = slotActual.charAt(0).toUpperCase() + slotActual.slice(1);
+    el.style.borderColor = "#333"; 
+    el.innerText = slotActual.charAt(0).toUpperCase() + slotActual.slice(1);
     actualizarEstadisticasGlobales();
     document.getElementById('pantalla-seleccion').style.display = "block"; 
     document.getElementById('seccion-edicion').style.display = "none";
