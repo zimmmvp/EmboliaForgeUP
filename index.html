@@ -9,7 +9,6 @@
     <header><h1>⚔️ Build Planner - Battle For Embolia 🛡️</h1></header>
     <div class="main-layout">
         <aside class="col-habilidades"><h2>Habilidades</h2><div id="lista-habilidades"></div></aside>
-        
         <main class="col-equipamiento">
             <h2>Equipamiento</h2>
             <div class="personaje-grid">
@@ -30,19 +29,16 @@
                 </div>
             </div>
         </main>
-        
         <aside class="col-estadisticas">
             <h2>Estadísticas</h2>
             <div id="lista-estadisticas"></div>
         </aside>
     </div>
 
-    <!-- MODAL -->
     <div id="modal-planner" class="modal">
         <div class="modal-contenido" style="width: 750px;">
             <span class="cerrar" onclick="cerrarModal()">&times;</span>
             <h2 id="modal-titulo">Editar Ítem</h2>
-            
             <div id="pantalla-seleccion">
                 <div class="filtros-rapidos">
                     <button onclick="filtrarPorTipo('todo')">Todo</button>
@@ -56,31 +52,27 @@
             <div id="seccion-edicion" style="display:none;">
                 <div class="tooltip-layout-final">
                     <div class="col-izq">
-                        <div id="item-preview-box" class="item-preview-box">
-                            <div id="item-nivel-tag" class="item-nivel-tag">+0</div>
+                        <div id="item-preview-box" class="item-preview-box"><div id="item-nivel-tag" class="item-nivel-tag">+0</div></div>
+                        <div class="form-row">
+                            <div><label>Nivel:</label><select id="select-nivel" onchange="actualizarVisual()"></select></div>
+                            <div><label>Rareza:</label><select id="select-rareza" onchange="actualizarVisual()"></select></div>
                         </div>
                         <div class="form-row">
-                            <label>Nivel:</label><select id="select-nivel" onchange="actualizarVisual()"></select>
-                            <label>Rareza:</label><select id="select-rareza" onchange="actualizarVisual()"></select>
-                        </div>
-                        <div class="form-row">
-                            <label>Grado:</label><select id="select-grado"></select>
-                            <label>Poder:</label><input type="number" id="input-poder">
+                            <div><label>Grado:</label><select id="select-grado"></select></div>
+                            <div><label>Poder:</label><input type="number" id="input-poder"></div>
                         </div>
                     </div>
                     <div class="col-der">
-                        <h3>Stats Base</h3>
-                        <div id="lista-stats-base"></div>
+                        <h3>Stats Base</h3><div id="lista-stats-base"></div>
                         <div class="agregar-box">
-                            <select id="new-stat-tipo"></select>
-                            <input type="number" id="new-stat-valor" placeholder="Val">
+                            <select id="new-stat-tipo" style="flex: 2;"></select>
+                            <input type="number" id="new-stat-valor" placeholder="Val" style="flex: 1;">
                             <button onclick="agregarStatBase()">+</button>
                         </div>
-                        <h3>Modificadores</h3>
-                        <div id="lista-mods-agregados"></div>
+                        <h3>Modificadores</h3><div id="lista-mods-agregados"></div>
                         <div class="agregar-box">
-                            <select id="select-mods"></select>
-                            <input type="number" id="input-valor-mod" placeholder="Val">
+                            <select id="select-mods" style="flex: 2;"></select>
+                            <input type="number" id="input-valor-mod" placeholder="Val" style="flex: 1;">
                             <button onclick="agregarModSeleccionado()">+</button>
                         </div>
                     </div>
