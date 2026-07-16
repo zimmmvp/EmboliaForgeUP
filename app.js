@@ -78,6 +78,17 @@ function activarEdicion(item) {
     actualizarVisual(); renderizarStats('lista-stats-base', tempStatsBase, 'eliminarStatBase'); renderizarStats('lista-mods-agregados', tempMods, 'eliminarMod');
 }
 
+function resetearItemActual() {
+    document.getElementById('select-nivel').value = "+0";
+    document.getElementById('select-rareza').value = "Normal";
+    document.getElementById('select-grado').value = "D";
+    document.getElementById('input-poder').value = "";
+    tempStatsBase = []; tempMods = [];
+    renderizarStats('lista-stats-base', tempStatsBase, 'eliminarStatBase');
+    renderizarStats('lista-mods-agregados', tempMods, 'eliminarMod');
+    actualizarVisual();
+}
+
 function guardarYEquipar() {
     equipoPersonaje[slotActual] = { itemOriginal: itemActual, nombre: itemActual.nombre, nivel: document.getElementById('select-nivel').value, rareza: document.getElementById('select-rareza').value, grado: document.getElementById('select-grado').value, poder: document.getElementById('input-poder').value, statsBase: [...tempStatsBase], modificadores: [...tempMods] };
     const el = document.getElementById('slot-' + slotActual);
