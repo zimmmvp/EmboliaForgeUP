@@ -6,34 +6,40 @@
     <title>Planner Battle For Embolia</title>
 </head>
 <body>
-    <header><h1>⚔️ Build Planner - Battle For Embolia 🛡️</h1></header>
+    <header class="header-centro">
+        <h1>⚔️ Build Planner - Battle For Embolia 🛡️</h1>
+        
+        <div class="selector-personajes">
+            <button onclick="cambiarPersonaje('Guerrero Zombie')">Guerrero Zombie</button>
+            <button onclick="cambiarPersonaje('Mago Oscuro')">Mago Oscuro</button>
+            <button onclick="cambiarPersonaje('Ninja')">Ninja</button>
+        </div>
+
+        <div id="contenedor-imagen">
+            <!-- Espacio reservado para tu imagen -->
+        </div>
+    </header>
     
     <div class="main-layout">
         <aside class="col-habilidades"><h2>Habilidades</h2><div id="lista-habilidades"></div></aside>
         
         <main class="col-equipamiento">
             <h2>Equipamiento</h2>
-            <!-- Selector de personajes -->
-            <div class="selector-personajes" style="margin-bottom:15px; display:flex; gap:10px;">
-                <button onclick="cambiarPersonaje('Guerrero Zombie')">Guerrero Zombie</button>
-                <button onclick="cambiarPersonaje('Mago Oscuro')">Mago Oscuro</button>
-                <button onclick="cambiarPersonaje('Ninja')">Ninja</button>
-            </div>
             <div class="personaje-grid">
                 <div class="col-slots">
-                    <div class="slot" id="slot-casco" onclick="abrirModalParaSeleccion('casco')">Casco</div>
-                    <div class="slot" id="slot-armadura" onclick="abrirModalParaSeleccion('armadura')">Armadura</div>
-                    <div class="slot" id="slot-guantes" onclick="abrirModalParaSeleccion('guantes')">Guantes</div>
-                    <div class="slot" id="slot-arma" onclick="abrirModalParaSeleccion('arma')">Arma</div>
-                    <div class="slot" id="slot-pico" onclick="abrirModalParaSeleccion('pico')">Pico</div>
+                    <div class="slot" id="slot-casco" onclick="abrirModalParaSeleccion('casco')">CASCO</div>
+                    <div class="slot" id="slot-armadura" onclick="abrirModalParaSeleccion('armadura')">ARMADURA</div>
+                    <div class="slot" id="slot-guantes" onclick="abrirModalParaSeleccion('guantes')">GUANTES</div>
+                    <div class="slot" id="slot-arma" onclick="abrirModalParaSeleccion('arma')">ARMA</div>
+                    <div class="slot" id="slot-pico" onclick="abrirModalParaSeleccion('pico')">PICO</div>
                 </div>
                 <div class="centro-personaje">👤</div>
                 <div class="col-slots">
-                    <div class="slot" id="slot-collar" onclick="abrirModalParaSeleccion('collar')">Collar</div>
-                    <div class="slot" id="slot-anillo" onclick="abrirModalParaSeleccion('anillo')">Anillo</div>
-                    <div class="slot" id="slot-botas" onclick="abrirModalParaSeleccion('botas')">Botas</div>
-                    <div class="slot" id="slot-arma-der" onclick="abrirModalParaSeleccion('arma-der')">Arma</div>
-                    <div class="slot" id="slot-alas" onclick="abrirModalParaSeleccion('alas')">Alas</div>
+                    <div class="slot" id="slot-collar" onclick="abrirModalParaSeleccion('collar')">COLLAR</div>
+                    <div class="slot" id="slot-anillo" onclick="abrirModalParaSeleccion('anillo')">ANILLO</div>
+                    <div class="slot" id="slot-botas" onclick="abrirModalParaSeleccion('botas')">BOTAS</div>
+                    <div class="slot" id="slot-arma-der" onclick="abrirModalParaSeleccion('arma-der')">ARMA-DER</div>
+                    <div class="slot" id="slot-alas" onclick="abrirModalParaSeleccion('alas')">ALAS</div>
                 </div>
             </div>
         </main>
@@ -41,9 +47,20 @@
         <aside class="col-estadisticas"><h2>Estadísticas</h2><div id="lista-estadisticas"></div></aside>
     </div>
 
-    <!-- Modal (mismo que antes) -->
     <div id="modal-planner" class="modal">
-        <!-- ... contenido del modal igual que antes ... -->
+        <div class="modal-contenido" style="width: 750px;">
+            <span class="cerrar" onclick="cerrarModal()">&times;</span>
+            <h2 id="modal-titulo">Seleccionar Ítem</h2>
+            <div id="pantalla-seleccion">
+                <input type="text" id="busqueda-modal" placeholder="Filtrar por nombre..." oninput="filtrarModal(this.value)">
+                <div id="lista-modal" class="lista-items-modal"></div>
+            </div>
+            <div id="seccion-edicion" style="display:none;">
+                <!-- ... contenido del editor ... -->
+                <button onclick="desequiparItem()">Desequipar</button>
+                <button onclick="guardarYEquipar()">Guardar</button>
+            </div>
+        </div>
     </div>
 
     <script src="config.js"></script>
