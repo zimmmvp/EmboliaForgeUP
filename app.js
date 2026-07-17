@@ -53,12 +53,15 @@ function abrirModalParaSeleccion(slot) {
 function filtrarPorSlot(slot) {
     const cont = document.getElementById('lista-modal');
     cont.innerHTML = '';
-    // Lógica mejorada para incluir 'túnica' cuando se filtra por 'armadura'
-    const terminoBusqueda = (slot === 'armadura') ? ['armadura', 'túnica'] : [slot.toLowerCase()];
+    
+    const tunicasPermitidas = ["túnica de sombras", "túnica ciruja", "túnica de majul"];
     
     listaItems.filter(i => {
         const nombre = i.nombre.toLowerCase();
-        return terminoBusqueda.some(termino => nombre.includes(termino));
+        if (slot === 'armadura') {
+            return nombre.includes('armadura') || tunicasPermitidas.some(t => nombre.includes(t));
+        }
+        return nombre.includes(slot.toLowerCase());
     }).forEach(item => {
         const div = document.createElement('div');
         div.className = 'item-card'; div.innerText = item.nombre;
