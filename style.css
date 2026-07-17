@@ -1,72 +1,129 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
-    <title>Planner Battle For Embolia</title>
-</head>
-<body>
-    <header class="header-centro">
-        <h1>⚔️ Build Planner - Battle For Embolia 🛡️</h1>
-        
-        <div class="selector-personajes">
-            <button onclick="cambiarPersonaje('Guerrero Zombie')">Guerrero Zombie</button>
-            <button onclick="cambiarPersonaje('Mago Oscuro')">Mago Oscuro</button>
-            <button onclick="cambiarPersonaje('Ninja')">Ninja</button>
-        </div>
+/* Estilos Generales */
+body {
+    background-color: #121212;
+    color: #00ff41;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
 
-        <div id="contenedor-iconos-personajes">
-            <!-- Espacio reservado para tus iconos aquí -->
-        </div>
-    </header>
-    
-    <div class="main-layout">
-        <aside class="col-habilidades"><h2>Habilidades</h2><div id="lista-habilidades"></div></aside>
-        
-        <main class="col-equipamiento">
-            <h2>Equipamiento</h2>
-            <div class="personaje-grid">
-                <div class="col-slots">
-                    <div class="slot" id="slot-casco" onclick="abrirModalParaSeleccion('casco')">CASCO</div>
-                    <div class="slot" id="slot-armadura" onclick="abrirModalParaSeleccion('armadura')">ARMADURA</div>
-                    <div class="slot" id="slot-guantes" onclick="abrirModalParaSeleccion('guantes')">GUANTES</div>
-                    <div class="slot" id="slot-arma" onclick="abrirModalParaSeleccion('arma')">ARMA</div>
-                    <div class="slot" id="slot-pico" onclick="abrirModalParaSeleccion('pico')">PICO</div>
-                </div>
-                
-                <div class="centro-personaje">👤</div>
-                
-                <div class="col-slots">
-                    <div class="slot" id="slot-collar" onclick="abrirModalParaSeleccion('collar')">COLLAR</div>
-                    <div class="slot" id="slot-anillo" onclick="abrirModalParaSeleccion('anillo')">ANILLO</div>
-                    <div class="slot" id="slot-botas" onclick="abrirModalParaSeleccion('botas')">BOTAS</div>
-                    <div class="slot" id="slot-arma-der" onclick="abrirModalParaSeleccion('arma-der')">ARMA-DER</div>
-                    <div class="slot" id="slot-alas" onclick="abrirModalParaSeleccion('alas')">ALAS</div>
-                </div>
-            </div>
-        </main>
-        
-        <aside class="col-estadisticas"><h2>Estadísticas</h2><div id="lista-estadisticas"></div></aside>
-    </div>
+/* Encabezado y Selector */
+.header-centro {
+    text-align: center;
+    margin-bottom: 20px;
+}
 
-    <div id="modal-planner" class="modal">
-        <div class="modal-contenido" style="width: 750px;">
-            <span class="cerrar" onclick="cerrarModal()">&times;</span>
-            <h2 id="modal-titulo">Seleccionar Ítem</h2>
-            <div id="pantalla-seleccion">
-                <input type="text" id="busqueda-modal" placeholder="Filtrar por nombre..." oninput="filtrarModal(this.value)">
-                <div id="lista-modal" class="lista-items-modal"></div>
-            </div>
-            <div id="seccion-edicion" style="display:none;">
-                <!-- Contenido del editor -->
-                <button onclick="desequiparItem()">Desequipar</button>
-                <button onclick="guardarYEquipar()">Guardar</button>
-            </div>
-        </div>
-    </div>
+.selector-personajes {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 15px 0;
+}
 
-    <script src="config.js"></script>
-    <script src="mapeo_imagenes.js"></script>
-    <script src="app.js"></script>
-</body>
-</html>
+.selector-personajes button {
+    padding: 8px 16px;
+    cursor: pointer;
+    background-color: #2a2a2e;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+#contenedor-iconos-personajes {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 10px auto;
+    min-height: 50px;
+}
+
+/* Layout Principal */
+.main-layout {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.col-habilidades, .col-estadisticas {
+    width: 250px;
+    background: #1a1a1e;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+
+.col-equipamiento {
+    flex: 1;
+    background: #1a1a1e;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    text-align: center;
+}
+
+/* Grid de Equipamiento */
+.personaje-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+}
+
+.col-slots {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.slot {
+    width: 80px;
+    height: 80px;
+    background: #1a1a1e;
+    border: 2px solid #333;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    cursor: pointer;
+    color: #fff;
+    font-weight: bold;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+}
+
+.modal-contenido {
+    background: #222;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #444;
+    border-radius: 8px;
+    color: white;
+}
+
+.lista-items-modal {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.item-card {
+    background: #333;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 4px;
+}
