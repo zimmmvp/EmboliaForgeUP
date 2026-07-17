@@ -53,8 +53,13 @@ function abrirModalParaSeleccion(slot) {
 function filtrarPorSlot(slot) {
     const cont = document.getElementById('lista-modal');
     cont.innerHTML = '';
-    // Filtra los ítems que contienen el nombre del slot en su descripción (ej: 'casco' en 'Casco de Doom')
-    listaItems.filter(i => i.nombre.toLowerCase().includes(slot.toLowerCase())).forEach(item => {
+    // Lógica mejorada para incluir 'túnica' cuando se filtra por 'armadura'
+    const terminoBusqueda = (slot === 'armadura') ? ['armadura', 'túnica'] : [slot.toLowerCase()];
+    
+    listaItems.filter(i => {
+        const nombre = i.nombre.toLowerCase();
+        return terminoBusqueda.some(termino => nombre.includes(termino));
+    }).forEach(item => {
         const div = document.createElement('div');
         div.className = 'item-card'; div.innerText = item.nombre;
         div.onclick = () => activarEdicion(item);
@@ -112,7 +117,13 @@ function guardarYEquipar() {
 
     el.style.backgroundColor = coloresRareza[info.rareza];
     el.style.borderColor = "#fff";
-    el.innerHTML = `<div style="height:100%; position:relative;"><div style="position:absolute; bottom:2px; left:4px; background:black; color:white; padding:0 4px; border-radius:3px; font-size:11px; font-weight:bold;">${info.nivel}</div></div>`;
+    el.innerHTML = `
+        <div style="height:100%; position:relative;">
+            <div style="position:absolute; bottom:2px; left:4px; background:black; color:white; padding:0 4px; border-radius:3px; font-size:11px; font-weight:bold;">
+                ${info.nivel}
+            </div>
+        </div>
+    `;
 
     if (nombreArchivo) {
         el.style.backgroundImage = `url('img/${nombreArchivo}')`;
