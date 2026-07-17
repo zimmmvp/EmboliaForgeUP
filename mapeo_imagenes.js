@@ -17,11 +17,11 @@ const MAPEO_IMAGENES = {
     "16": "", // Báculo Metálica
     "17": "", // Armadura gigante
     "18": "", // Guantes gigantes
-    "19": "", // Botas Gigantes
+    "19": "‎bootsHeavy2-sharedassets1.assets-221.png", // Botas Gigantes
     "20": "", // Casco Gigante
     "21": "", // Armadura de la suerte
     "22": "", // Guantes de la suerte
-    "23": "", // Botas de la suerte
+    "23": "bootsLight2-sharedassets1.assets-558.png", // Botas de la suerte
     "24": "", // Casco de la suerte
     "25": "", // Túnica de sombras
     "26": "", // Guantes de Sombra
@@ -38,11 +38,11 @@ const MAPEO_IMAGENES = {
     "37": "", // Cazador de Gugas
     "38": "", // Armadura Imperial
     "39": "", // Guantes Imperiales
-    "40": "", // Botas Imperiales
+    "40": "bootsHeavy3-sharedassets1.assets-188.png", // Botas Imperiales
     "41": "", // Casco Imperial
     "42": "", // Armadura Elegante
     "43": "", // Guantes elegantes
-    "44": "", // Botas Elegantes
+    "44": "bootsLight2-sharedassets1.assets-558.png", // Botas Elegantes
     "45": "", // Casco Elegante
     "46": "", // Armadura de mago
     "47": "", // Guantes de mago
@@ -76,11 +76,11 @@ const MAPEO_IMAGENES = {
     "75": "", // Anillo de Moira Kazzan
     "76": "", // La pesada armadura de Majul.
     "77": "", // Los guantes pesados de Majul.
-    "78": "", // Las pesadas botas de Majul.
+    "78": "bootsHeavy4-sharedassets1.assets-584.png‎", // Las pesadas botas de Majul.
     "79": "", // El pesado casco de Majul.
     "80": "", // La armadura ligera de Majul.
     "81": "", // Los guantes ligeros de Majul.
-    "82": "", // Las botas ligeras de Majul.
+    "82": "bootsLight4-sharedassets1.assets-230.png‎", // Las botas ligeras de Majul.
     "83": "", // El casco ligero de Majul.
     "84": "", // La túnica de Majul.
     "85": "", // Los guantes de la túnica de Majul.
@@ -94,11 +94,11 @@ const MAPEO_IMAGENES = {
     "95": "", // La Corona de Maestruli
     "96": "", // Armadura pesada de Doom
     "97": "", // Guantes pesados de Doom
-    "98": "", // Botas pesadas de Doom
+    "98": "bootsHeavy5-sharedassets1.assets-627.png‎", // Botas pesadas de Doom
     "99": "", // Casco pesado de Doom
     "100": "", // Armadura ligera de Doom
     "101": "", // Guantes de luz de la perdición.
-    "102": "", // Botas ligeras de Doom
+    "102": "bootsLight4-sharedassets1.assets-230.png‎", // Botas ligeras de Doom
     "103": "", // Casco ligero de Doom
     "104": "", // Armadura de túnica de la perdición
     "105": "", // Guantes de túnica de la perdición
@@ -106,7 +106,7 @@ const MAPEO_IMAGENES = {
     "107": "", // Túnica de la fatalidad casco
     "108": "", // Armadura pesada de hielo
     "109": "", // Guantes pesados de hielo.
-    "110": "", // Botas pesadas de hielo.
+    "110": "bootsHeavy6-sharedassets1.assets-197.png‎", // Botas pesadas de hielo.
     "111": "", // Casco pesado de hielo
     "112": "", // Armadura ligera de relámpago
     "113": "", // Guantes de luz relámpago
@@ -118,7 +118,7 @@ const MAPEO_IMAGENES = {
     "119": "", // Casco de túnica Infernus
     "120": "", // Armadura pesada mutante
     "121": "", // Guantes pesados mutantes
-    "122": "", // Botas pesadas mutantes
+    "122": "bootsHeavy7-sharedassets1.assets-284.png‎", // Botas pesadas mutantes
     "123": "", // Casco pesado mutante
     "124": "", // Armadura ligera mutante
     "125": "", // Guantes de luz mutantes
