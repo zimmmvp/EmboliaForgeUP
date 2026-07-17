@@ -1,32 +1,51 @@
 let listaItems = [], slotActual = '', itemActual = null, equipoPersonaje = {}, tempStatsBase = [], tempMods = [];
+let personajeActual = "Guerrero Zombie";
+
+const DATOS_PERSONAJES = {
+    "Guerrero Zombie": { equipo: {} },
+    "Mago Oscuro": { equipo: {} },
+    "Ninja": { equipo: {} }
+};
+
 const coloresRareza = { "Normal": "#ffffff", "Mágico": "#007bff", "Raro": "#28a745", "Épico": "#ff00ff", "Legendario": "#ff8c00" };
 
-function cargarEstadisticas() {
-    const contenedor = document.getElementById('lista-estadisticas');
-    LISTA_STATS.forEach(stat => {
-        contenedor.innerHTML += `<div class="stat-linea"><span>${stat}:</span> <span id="stat-${stat.replace(/ /g, '-')}">0</span></div>`;
+function cambiarPersonaje(nombre) {
+    DATOS_PERSONAJES[personajeActual].equipo = { ...equipoPersonaje };
+    personajeActual = nombre;
+    equipoPersonaje = { ...DATOS_PERSONAJES[personajeActual].equipo };
+    limpiarSlots();
+    cargarEquipoEnSlots();
+    actualizarEstadisticasGlobales();
+}
+
+function limpiarSlots() {
+    document.querySelectorAll('.slot').forEach(slot => {
+        slot.style.borderColor = "#333";
+        slot.style.backgroundColor = "#1a1a1e";
+        slot.style.backgroundImage = "none";
+        slot.innerHTML = slot.id.replace('slot-', '').toUpperCase();
     });
 }
 
-function inicializarSelectores() {
-    const selects = [document.getElementById('new-stat-tipo'), document.getElementById('select-mods')];
-    selects.forEach(s => LISTA_STATS.forEach(stat => s.innerHTML += `<option value="${stat}">${stat}</option>`));
-    ["+0", "+1", "+2", "+3", "+4", "+5"].forEach(n => document.getElementById('select-nivel').innerHTML += `<option value="${n}">${n}</option>`);
-    ["Normal", "Mágico", "Raro", "Épico", "Legendario"].forEach(r => document.getElementById('select-rareza').innerHTML += `<option value="${r}">${r}</option>`);
-    ["D", "C", "B", "A", "S"].forEach(g => document.getElementById('select-grado').innerHTML += `<option value="${g}">${g}</option>`);
+function cargarEquipoEnSlots() {
+    for (const slot in equipoPersonaje) {
+        dibujarSlot(slot, equipoPersonaje[slot]);
+    }
 }
 
-function actualizarVisual() {
-    const rareza = document.getElementById('select-rareza').value;
-    const nivel = document.getElementById('select-nivel').value;
-    document.getElementById('item-preview-box').style.backgroundColor = coloresRareza[rareza];
-    document.getElementById('item-nivel-tag').innerText = nivel;
-}
-
-function renderizarStats(containerId, lista, funcName) {
-    const cont = document.getElementById(containerId);
-    cont.innerHTML = '';
-    lista.forEach((item, idx) => cont.innerHTML += `<div class="stat-item">${item.tipo}: <strong>${item.valor}</strong><button class="btn-eliminar-stat" onclick="${funcName}(${idx})">×</button></div>`);
+function dibujarSlot(slot, info) {
+    const el = document.getElementById('slot-' + slot);
+    if(!el) return;
+    const nombreArchivo = typeof MAPEO_IMAGENES !== 'undefined' ? MAPEO_IMAGENES[info.itemOriginal.id] : null;
+    el.style.backgroundColor = coloresRareza[info.rareza];
+    el.style.borderColor = "#fff";
+    el.innerHTML = `<div style="height:100%; position:relative;"><div style="position:absolute; bottom:2px; left:4px; background:black; color:white; padding:0 4px; border-radius:3px; font-size:11px; font-weight:bold;">${info.nivel}</div></div>`;
+    if (nombreArchivo) {
+        el.style.backgroundImage = `url('img/${nombreArchivo}')`;
+        el.style.backgroundSize = "contain";
+        el.style.backgroundRepeat = "no-repeat";
+        el.style.backgroundPosition = "center";
+    }
 }
 
 async function cargarDatos() {
@@ -34,15 +53,7 @@ async function cargarDatos() {
         const res = await fetch('data/item.txt');
         const texto = await res.text();
         listaItems = texto.split('\n').filter(l => l.includes('item_name_')).map(l => ({ id: l.split('=>')[0].split('item_name_')[1].trim(), nombre: l.split('=>')[1].trim() }));
-        filtrarModal('');
     } catch (e) { console.error("Error al cargar datos"); }
-}
-
-function abrirModalParaSeleccion(slot) {
-    slotActual = slot;
-    document.getElementById('modal-planner').style.display = "block";
-    if (equipoPersonaje[slotActual]) activarEdicion(equipoPersonaje[slotActual].itemOriginal);
-    else { document.getElementById('pantalla-seleccion').style.display = "block"; document.getElementById('seccion-edicion').style.display = "none"; document.getElementById('modal-titulo').innerText = "Seleccionar Ítem"; }
 }
 
 function filtrarModal(busqueda) {
@@ -56,56 +67,42 @@ function filtrarModal(busqueda) {
     });
 }
 
-function activarEdicion(item) {
-    itemActual = item;
-    document.getElementById('modal-titulo').innerText = "Editar: " + item.nombre;
-    document.getElementById('pantalla-seleccion').style.display = "none";
-    document.getElementById('seccion-edicion').style.display = "block";
-    const guardado = equipoPersonaje[slotActual] || { nivel: "+0", rareza: "Normal", grado: "D", poder: "", statsBase: [], modificadores: [] };
-    document.getElementById('select-nivel').value = guardado.nivel;
-    document.getElementById('select-rareza').value = guardado.rareza;
-    document.getElementById('select-grado').value = guardado.grado;
-    document.getElementById('input-poder').value = guardado.poder;
-    tempStatsBase = [...guardado.statsBase]; tempMods = [...guardado.modificadores];
-    actualizarVisual(); renderizarStats('lista-stats-base', tempStatsBase, 'eliminarStatBase'); renderizarStats('lista-mods-agregados', tempMods, 'eliminarMod');
+function abrirModalParaSeleccion(slot) {
+    slotActual = slot;
+    document.getElementById('modal-planner').style.display = "block";
+    if (equipoPersonaje[slotActual]) {
+        activarEdicion(equipoPersonaje[slotActual].itemOriginal);
+    } else {
+        document.getElementById('pantalla-seleccion').style.display = "block";
+        document.getElementById('seccion-edicion').style.display = "none";
+        filtrarPorSlot(slot);
+    }
 }
 
-function desequiparItem() {
-    delete equipoPersonaje[slotActual];
-    const el = document.getElementById('slot-' + slotActual);
-    el.style.borderColor = "#333"; el.innerText = slotActual.charAt(0).toUpperCase() + slotActual.slice(1);
-    actualizarEstadisticasGlobales();
-    document.getElementById('pantalla-seleccion').style.display = "block"; 
-    document.getElementById('seccion-edicion').style.display = "none";
-    document.getElementById('modal-titulo').innerText = "Seleccionar Ítem";
-    tempStatsBase = []; tempMods = [];
+function filtrarPorSlot(slot) {
+    const cont = document.getElementById('lista-modal');
+    cont.innerHTML = '';
+    const tunicasPermitidas = ["túnica de sombras", "túnica ciruja", "túnica de majul"];
+    listaItems.filter(i => {
+        const nombre = i.nombre.toLowerCase();
+        if (slot === 'armadura') return nombre.includes('armadura') || tunicasPermitidas.some(t => nombre.includes(t));
+        return nombre.includes(slot.toLowerCase());
+    }).forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'item-card'; div.innerText = item.nombre;
+        div.onclick = () => activarEdicion(item);
+        cont.appendChild(div);
+    });
 }
 
 function guardarYEquipar() {
     equipoPersonaje[slotActual] = { itemOriginal: itemActual, nombre: itemActual.nombre, nivel: document.getElementById('select-nivel').value, rareza: document.getElementById('select-rareza').value, grado: document.getElementById('select-grado').value, poder: document.getElementById('input-poder').value, statsBase: [...tempStatsBase], modificadores: [...tempMods] };
-    const el = document.getElementById('slot-' + slotActual);
-    const info = equipoPersonaje[slotActual];
-    el.style.borderColor = coloresRareza[info.rareza];
-    el.innerHTML = `<div style="height:100%; display:flex; flex-direction:column; justify-content:space-between; padding:4px;"><div style="font-size:9px; font-weight:bold;">${info.nombre}</div><div style="text-align:right; font-size:10px; font-weight:bold; color:${coloresRareza[info.rareza]}">${info.nivel}</div></div>`;
-    actualizarEstadisticasGlobales(); cerrarModal();
-}
-
-function actualizarEstadisticasGlobales() {
-    let totales = {}; LISTA_STATS.forEach(s => totales[s] = 0);
-    for (const s in equipoPersonaje) {
-        if (equipoPersonaje[s]) {
-            [...equipoPersonaje[s].statsBase, ...equipoPersonaje[s].modificadores].forEach(item => {
-                if (totales[item.tipo] !== undefined) totales[item.tipo] += parseFloat(item.valor) || 0;
-            });
-        }
-    }
-    LISTA_STATS.forEach(s => { const el = document.getElementById(`stat-${s.replace(/ /g, '-')}`); if (el) el.innerText = totales[s]; });
+    dibujarSlot(slotActual, equipoPersonaje[slotActual]);
+    actualizarEstadisticasGlobales();
+    cerrarModal();
 }
 
 function cerrarModal() { document.getElementById('modal-planner').style.display = "none"; }
-function agregarStatBase() { tempStatsBase.push({ tipo: document.getElementById('new-stat-tipo').value, valor: document.getElementById('new-stat-valor').value }); renderizarStats('lista-stats-base', tempStatsBase, 'eliminarStatBase'); }
-function agregarModSeleccionado() { tempMods.push({ tipo: document.getElementById('select-mods').value, valor: document.getElementById('input-valor-mod').value }); renderizarStats('lista-mods-agregados', tempMods, 'eliminarMod'); }
-function eliminarStatBase(i) { tempStatsBase.splice(i, 1); renderizarStats('lista-stats-base', tempStatsBase, 'eliminarStatBase'); }
-function eliminarMod(i) { tempMods.splice(i, 1); renderizarStats('lista-mods-agregados', tempMods, 'eliminarMod'); }
 
-cargarDatos(); cargarEstadisticas(); inicializarSelectores();
+// Carga inicial
+cargarDatos();
