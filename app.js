@@ -112,7 +112,7 @@ function guardarYEquipar() {
 
     el.innerHTML = `
         <div style="height:100%; position:relative;">
-            <div style="position:absolute; bottom:2px; right:4px; background:black; color:white; padding:0 4px; border-radius:3px; font-size:11px; font-weight:bold;">
+            <div style="position:absolute; bottom:2px; left:4px; background:black; color:white; padding:0 4px; border-radius:3px; font-size:11px; font-weight:bold;">
                 ${info.nivel}
             </div>
         </div>
