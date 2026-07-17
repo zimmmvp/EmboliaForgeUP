@@ -6,35 +6,26 @@
     <title>Planner Battle For Embolia</title>
 </head>
 <body>
-    <header class="header-centro">
-        <h1>⚔️ Build Planner - Battle For Embolia 🛡️</h1>
-        <div class="selector-personajes">
-            <button onclick="cambiarPersonaje('Guerrero Zombie')">Guerrero Zombie</button>
-            <button onclick="cambiarPersonaje('Mago Oscuro')">Mago Oscuro</button>
-            <button onclick="cambiarPersonaje('Ninja')">Ninja</button>
-        </div>
-        <div id="contenedor-iconos-personajes"></div>
-    </header>
-    
+    <header><h1>⚔️ Build Planner - Battle For Embolia 🛡️</h1></header>
     <div class="main-layout">
         <aside class="col-habilidades"><h2>Habilidades</h2><div id="lista-habilidades"></div></aside>
         <main class="col-equipamiento">
             <h2>Equipamiento</h2>
             <div class="personaje-grid">
                 <div class="col-slots">
-                    <div class="slot" id="slot-casco" onclick="abrirModalParaSeleccion('casco')">CASCO</div>
-                    <div class="slot" id="slot-armadura" onclick="abrirModalParaSeleccion('armadura')">ARMADURA</div>
-                    <div class="slot" id="slot-guantes" onclick="abrirModalParaSeleccion('guantes')">GUANTES</div>
-                    <div class="slot" id="slot-arma" onclick="abrirModalParaSeleccion('arma')">ARMA</div>
-                    <div class="slot" id="slot-pico" onclick="abrirModalParaSeleccion('pico')">PICO</div>
+                    <div class="slot" id="slot-casco" onclick="abrirModalParaSeleccion('casco')">Casco</div>
+                    <div class="slot" id="slot-armadura" onclick="abrirModalParaSeleccion('armadura')">Armadura</div>
+                    <div class="slot" id="slot-guantes" onclick="abrirModalParaSeleccion('guantes')">Guantes</div>
+                    <div class="slot" id="slot-arma" onclick="abrirModalParaSeleccion('arma')">Arma</div>
+                    <div class="slot" id="slot-pico" onclick="abrirModalParaSeleccion('pico')">Pico</div>
                 </div>
                 <div class="centro-personaje">👤</div>
                 <div class="col-slots">
-                    <div class="slot" id="slot-collar" onclick="abrirModalParaSeleccion('collar')">COLLAR</div>
-                    <div class="slot" id="slot-anillo" onclick="abrirModalParaSeleccion('anillo')">ANILLO</div>
-                    <div class="slot" id="slot-botas" onclick="abrirModalParaSeleccion('botas')">BOTAS</div>
-                    <div class="slot" id="slot-arma-der" onclick="abrirModalParaSeleccion('arma-der')">ARMA-DER</div>
-                    <div class="slot" id="slot-alas" onclick="abrirModalParaSeleccion('alas')">ALAS</div>
+                    <div class="slot" id="slot-collar" onclick="abrirModalParaSeleccion('collar')">Collar</div>
+                    <div class="slot" id="slot-anillo" onclick="abrirModalParaSeleccion('anillo')">Anillo</div>
+                    <div class="slot" id="slot-botas" onclick="abrirModalParaSeleccion('botas')">Botas</div>
+                    <div class="slot" id="slot-arma-der" onclick="abrirModalParaSeleccion('arma-der')">Arma</div>
+                    <div class="slot" id="slot-alas" onclick="abrirModalParaSeleccion('alas')">Alas</div>
                 </div>
             </div>
         </main>
@@ -44,19 +35,51 @@
     <div id="modal-planner" class="modal">
         <div class="modal-contenido" style="width: 750px;">
             <span class="cerrar" onclick="cerrarModal()">&times;</span>
-            <h2 id="modal-titulo">Seleccionar Ítem</h2>
+            <h2 id="modal-titulo">Editar Ítem</h2>
             <div id="pantalla-seleccion">
-                <input type="text" id="busqueda-modal" placeholder="Filtrar..." oninput="filtrarModal(this.value)">
+                <div class="filtros-rapidos">
+                    <button onclick="filtrarPorTipo('todo')">Todo</button>
+                    <button onclick="filtrarPorTipo('arma')">Armas</button>
+                    <button onclick="filtrarPorTipo('espada')">Espadas</button>
+                </div>
+                <input type="text" id="busqueda-modal" placeholder="Filtrar por nombre..." oninput="filtrarModal(this.value)">
                 <div id="lista-modal" class="lista-items-modal"></div>
             </div>
+            
             <div id="seccion-edicion" style="display:none;">
-                <select id="select-nivel"></select>
-                <select id="select-rareza"></select>
-                <input type="text" id="input-poder" placeholder="Poder">
-                <div id="lista-stats-base"></div>
-                <div id="lista-mods-agregados"></div>
-                <button onclick="desequiparItem()">Desequipar</button>
-                <button onclick="guardarYEquipar()">Guardar</button>
+                <div class="tooltip-layout-final">
+                    <div class="col-izq">
+                        <div id="item-preview-box" class="item-preview-box">
+                            <div id="item-nivel-tag" class="item-nivel-tag">+0</div>
+                        </div>
+                        <div class="form-row">
+                            <div><label>Nivel:</label><select id="select-nivel" onchange="actualizarVisual()"></select></div>
+                            <div><label>Rareza:</label><select id="select-rareza" onchange="actualizarVisual()"></select></div>
+                        </div>
+                        <div class="form-row">
+                            <div><label>Grado:</label><select id="select-grado"></select></div>
+                            <div><label>Poder:</label><input type="number" id="input-poder"></div>
+                        </div>
+                    </div>
+                    <div class="col-der">
+                        <h3>Stats Base</h3><div id="lista-stats-base"></div>
+                        <div class="agregar-box">
+                            <select id="new-stat-tipo" style="flex: 2;"></select>
+                            <input type="number" id="new-stat-valor" placeholder="Val" style="flex: 1;">
+                            <button onclick="agregarStatBase()">+</button>
+                        </div>
+                        <h3>Modificadores</h3><div id="lista-mods-agregados"></div>
+                        <div class="agregar-box">
+                            <select id="select-mods" style="flex: 2;"></select>
+                            <input type="number" id="input-valor-mod" placeholder="Val" style="flex: 1;">
+                            <button onclick="agregarModSeleccionado()">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button onclick="desequiparItem()" style="flex: 1; padding: 10px; background-color: #ff4d4d; color: white; border: none; cursor: pointer; font-weight: bold; border-radius: 4px;">Desequipar</button>
+                    <button onclick="guardarYEquipar()" style="flex: 1; padding: 10px; background-color: #00e676; color: black; border: none; cursor: pointer; font-weight: bold; border-radius: 4px;">Guardar y Equipar</button>
+                </div>
             </div>
         </div>
     </div>
